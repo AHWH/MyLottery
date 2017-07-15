@@ -23,7 +23,7 @@ import sg.reddotdev.sharkfin.data.database.LotteryDatabase;
 import sg.reddotdev.sharkfin.data.model.LotteryResult;
 import sg.reddotdev.sharkfin.data.model.TotoWinner;
 import sg.reddotdev.sharkfin.data.model.TotoWinner_Table;
-import sg.reddotdev.sharkfin.util.LottoConst;
+import sg.reddotdev.sharkfin.util.constants.LottoConst;
 
 @Table(database = LotteryDatabase.class)
 public class TotoWinningBoard extends BaseModel {

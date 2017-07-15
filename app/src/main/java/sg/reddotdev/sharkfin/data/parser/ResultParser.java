@@ -9,10 +9,12 @@ package sg.reddotdev.sharkfin.data.parser;
 
 import sg.reddotdev.sharkfin.data.model.LotteryResult;
 
+/*Blueprint for all ResultParser*/
 public interface ResultParser {
-    void trimString();
-
+    /*Parse the incoming String response into Model object*/
     LotteryResult parse();
 
+    /*Need to trim String*/
+    void trimString();
 
 }

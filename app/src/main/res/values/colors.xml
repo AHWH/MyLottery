@@ -3,4 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+
+    <color name="bottomNavDefault">#f1f1f1</color>
+    <color name="bottomNavText">#838383</color>
+    <color name="bottomNavSelectedTint">#ffffff</color>
 </resources>

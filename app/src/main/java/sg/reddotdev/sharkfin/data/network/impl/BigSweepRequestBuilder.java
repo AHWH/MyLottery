@@ -14,8 +14,8 @@ import com.androidnetworking.common.Priority;
 import sg.reddotdev.sharkfin.data.network.ANRequestInt;
 import sg.reddotdev.sharkfin.util.base.QueryParamBuilder;
 import sg.reddotdev.sharkfin.util.impl.BigSweepQueryParamBuilder;
-import sg.reddotdev.sharkfin.util.LottoConst;
-import sg.reddotdev.sharkfin.util.LottoURLEndpoint;
+import sg.reddotdev.sharkfin.util.constants.LottoConst;
+import sg.reddotdev.sharkfin.util.constants.LottoURLEndpoint;
 
 public class BigSweepRequestBuilder implements ANRequestInt {
     @Override

@@ -5,7 +5,7 @@
  * Unless subject to explicit written approval, there should be no reproduction of the codes in any means.
  */
 
-package sg.reddotdev.sharkfin.util;
+package sg.reddotdev.sharkfin.util.constants;
 
 public final class LottoURLEndpoint {
     private LottoURLEndpoint() {};

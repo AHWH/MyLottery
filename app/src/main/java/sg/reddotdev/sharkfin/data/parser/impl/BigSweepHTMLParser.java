@@ -7,8 +7,6 @@
 
 package sg.reddotdev.sharkfin.data.parser.impl;
 
-import android.util.Log;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,17 +17,15 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import sg.reddotdev.sharkfin.data.model.LotteryResult;
 import sg.reddotdev.sharkfin.data.model.impl.BigSweepLottery2DNumber;
 import sg.reddotdev.sharkfin.data.model.impl.BigSweepLottery3DNumber;
 import sg.reddotdev.sharkfin.data.model.impl.BigSweepLottery7DNumber;
 import sg.reddotdev.sharkfin.data.model.impl.BigSweepLotteryResult;
-import sg.reddotdev.sharkfin.data.parser.ResultParser;
-import sg.reddotdev.sharkfin.util.LottoConst;
+import sg.reddotdev.sharkfin.data.parser.ResultParserBase;
+import sg.reddotdev.sharkfin.util.constants.LottoConst;
 import sg.reddotdev.sharkfin.util.MonthConverter;
 
-public class BigSweepHTMLParser implements ResultParser {
-    private String response;
+public class BigSweepHTMLParser extends ResultParserBase {
     private Element topHeader;
     private Element standalonePrizesTable;
     private Element superSweepTable;
@@ -43,10 +39,32 @@ public class BigSweepHTMLParser implements ResultParser {
     private Element delight3DPrizesTable;
 
     public BigSweepHTMLParser(String response) {
-        this.response = response;
+        super(response);
     }
 
-    @Override
+    public BigSweepLotteryResult parse() {
+        trimString();
+
+        int lotteryID = parseID();
+        Calendar date = parseDate();
+
+        List<Integer> standalonePrizes = parseStandalone();
+
+        String superSweepPrize = superSweepTable == null ? "" : parseSuperSweep();
+        int cascadePrize = cascadeTable == null ? 0 : parseCascadePrize();
+
+        List<BigSweepLottery7DNumber> jackpotPrizes = parse7DNo(lotteryID, date, LottoConst.SGPOOLS_SWEEP_JACKPOT);
+        List<BigSweepLottery7DNumber> luckyPrizes = parse7DNo(lotteryID, date, LottoConst.SGPOOLS_SWEEP_LUCKY);
+        List<BigSweepLottery7DNumber> giftPrizes = parse7DNo(lotteryID, date, LottoConst.SGPOOLS_SWEEP_GIFT);
+        List<BigSweepLottery7DNumber> consolationPrizes = parse7DNo(lotteryID, date, LottoConst.SGPOOLS_SWEEP_CONSOLATION);
+        List<BigSweepLottery7DNumber> participationPrizes = participationPrizesTable == null ? new ArrayList<BigSweepLottery7DNumber>() : parse7DNo(lotteryID, date, LottoConst.SGPOOLS_SWEEP_PARTICIPATION);
+
+        List<BigSweepLottery2DNumber> delight2DPrizes = delight2DPrizesTable == null ? new ArrayList<BigSweepLottery2DNumber>() : parse2DNo(lotteryID, date);
+        List<BigSweepLottery3DNumber> delight3DPrizes = delight3DPrizesTable == null ? new ArrayList<BigSweepLottery3DNumber>() : parse3DNo(lotteryID, date);
+
+        return new BigSweepLotteryResult(lotteryID, date, standalonePrizes, superSweepPrize, cascadePrize, jackpotPrizes, luckyPrizes, giftPrizes, consolationPrizes, participationPrizes, delight2DPrizes, delight3DPrizes);
+    }
+
     public void trimString() {
         Document doc = Jsoup.parse(response);
         Element parentDiv = doc.select("div.swpr").first().select("div.tables-wrap").first();
@@ -84,38 +102,13 @@ public class BigSweepHTMLParser implements ResultParser {
         delight3DPrizesTable = outerTables.select("table[prizecode=23]").first();
     }
 
-    @Override
-    public BigSweepLotteryResult parse() {
-        trimString();
-
-        int lotteryID = parseID();
-        Calendar date = parseDate();
-
-        List<Integer> standalonePrizes = parseStandalone();
-
-        String superSweepPrize = superSweepTable == null ? "" : parseSuperSweep();
-        int cascadePrize = cascadeTable == null ? 0 : parseCascadePrize();
-
-        List<BigSweepLottery7DNumber> jackpotPrizes = parse7DNo(lotteryID, date, LottoConst.SGPOOLS_SWEEP_JACKPOT);
-        List<BigSweepLottery7DNumber> luckyPrizes = parse7DNo(lotteryID, date, LottoConst.SGPOOLS_SWEEP_LUCKY);
-        List<BigSweepLottery7DNumber> giftPrizes = parse7DNo(lotteryID, date, LottoConst.SGPOOLS_SWEEP_GIFT);
-        List<BigSweepLottery7DNumber> consolationPrizes = parse7DNo(lotteryID, date, LottoConst.SGPOOLS_SWEEP_CONSOLATION);
-        List<BigSweepLottery7DNumber> participationPrizes = participationPrizesTable == null ? new ArrayList<BigSweepLottery7DNumber>() : parse7DNo(lotteryID, date, LottoConst.SGPOOLS_SWEEP_PARTICIPATION);
-
-        List<BigSweepLottery2DNumber> delight2DPrizes = delight2DPrizesTable == null ? new ArrayList<BigSweepLottery2DNumber>() : parse2DNo(lotteryID, date);
-        List<BigSweepLottery3DNumber> delight3DPrizes = delight3DPrizesTable == null ? new ArrayList<BigSweepLottery3DNumber>() : parse3DNo(lotteryID, date);
-
-        return new BigSweepLotteryResult(lotteryID, date, standalonePrizes, superSweepPrize, cascadePrize, jackpotPrizes, luckyPrizes, giftPrizes, consolationPrizes, participationPrizes, delight2DPrizes, delight3DPrizes);
-    }
-
-
-    private int parseID() {
+    protected int parseID() {
         String lotteryIDStr = topHeader.select("th.drawNumber").first().text().substring(9);
         lotteryIDStr = lotteryIDStr.replaceAll("/", "");
         return Integer.parseInt(lotteryIDStr);
     }
 
-    private Calendar parseDate() {
+    protected Calendar parseDate() {
         String lotteryDateStr = topHeader.select("th.drawDate").first().text();
         lotteryDateStr = lotteryDateStr.substring(5);
         int day = Integer.parseInt(lotteryDateStr.substring(0,2));

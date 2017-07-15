@@ -12,12 +12,20 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import sg.reddotdev.sharkfin.R;
+import sg.reddotdev.sharkfin.data.model.LotteryResult;
+import sg.reddotdev.sharkfin.data.parser.ResultParser;
+import sg.reddotdev.sharkfin.data.parser.impl.BigSweepHTMLParser;
+import sg.reddotdev.sharkfin.data.transaction.ResultDatabaseManager;
+import sg.reddotdev.sharkfin.data.transaction.impl.BigSweepResultDatabaseManager;
 import sg.reddotdev.sharkfin.manager.base.ResultRetrievalManager;
 import sg.reddotdev.sharkfin.manager.impl.BigSweepRetrievalManager;
 
 
-public class BigSweepActivity extends AppCompatActivity implements ResultRetrievalManager.ResultRetrievalManagerListener {
+public class BigSweepActivity extends AppCompatActivity
+        implements ResultRetrievalManager.ResultRetrievalManagerListener,
+        ResultDatabaseManager.ResultDataManagerListener {
     private ResultRetrievalManager bigSweepResultRetrievalManager;
+    private ResultDatabaseManager bigSweepResultDatabaseManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,17 +57,48 @@ public class BigSweepActivity extends AppCompatActivity implements ResultRetriev
     @Override
     protected void onDestroy() {
         bigSweepResultRetrievalManager.unregisterListener();
+        bigSweepResultDatabaseManager.unregisterListener();
         super.onDestroy();
     }
 
-    @Override
-    public void onSuccessfulRetrievedResult() {
 
+
+    /*Listeners for ResultRetrieval*/
+    @Override
+    public void onSuccessfulRetrievedResult(String response) {
+                /*Parse the result into 4D Result Objects*/
+        /*To be saved into DB and view to show*/
+        ResultParser fourDHTMLParcer = new BigSweepHTMLParser(response);
+        final LotteryResult bigSweepLotteryResult = fourDHTMLParcer.parse();
+        bigSweepResultDatabaseManager = new BigSweepResultDatabaseManager();
+        bigSweepResultDatabaseManager.registerListener(this);
+        bigSweepResultDatabaseManager.save(bigSweepLotteryResult);
     }
 
     @Override
     public void onFailureRetrievedResult() {
+        /*TODO: implement proper error handling mechanism*/
+    }
 
+    /*Listeners for ResultDataManager*/
+    @Override
+    public void onSuccessSave() {
+
+    }
+
+    @Override
+    public void onFailureSave() {
+        /*TODO: implement proper error handling mechanism*/
+    }
+
+    @Override
+    public void onSuccessRetrieve() {
+
+    }
+
+    @Override
+    public void onFailureRetrieve() {
+        /*TODO: implement proper error handling mechanism*/
     }
 }
 

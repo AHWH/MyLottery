@@ -20,7 +20,7 @@ import java.util.List;
 import sg.reddotdev.sharkfin.data.database.LotteryDatabase;
 import sg.reddotdev.sharkfin.data.model.LotteryNumber;
 import sg.reddotdev.sharkfin.data.model.LotteryResult;
-import sg.reddotdev.sharkfin.util.LottoConst;
+import sg.reddotdev.sharkfin.util.constants.LottoConst;
 
 /**
  * Created by weiho on 3/7/2017.

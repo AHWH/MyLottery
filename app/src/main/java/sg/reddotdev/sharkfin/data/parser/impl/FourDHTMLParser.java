@@ -19,28 +19,18 @@ import java.util.List;
 
 import sg.reddotdev.sharkfin.data.model.impl.FourDLotteryNumber;
 import sg.reddotdev.sharkfin.data.model.impl.FourDLotteryResult;
-import sg.reddotdev.sharkfin.data.parser.ResultParser;
-import sg.reddotdev.sharkfin.util.LottoConst;
+import sg.reddotdev.sharkfin.data.parser.ResultParserBase;
+import sg.reddotdev.sharkfin.util.constants.LottoConst;
 import sg.reddotdev.sharkfin.util.MonthConverter;
 
 
-public class FourDHTMLParser implements ResultParser {
-    private String response;
+public class FourDHTMLParser extends ResultParserBase {
     private Element topTable;
     private Element midTable;
     private Element btmTable;
 
     public FourDHTMLParser(String response) {
-        this.response = response;
-    }
-
-    @Override
-    public void trimString() {
-        Document doc = Jsoup.parse(response);
-        Elements parentDiv = doc.select("div.four-d-results").first().select("div.tables-wrap");
-        topTable = parentDiv.select("table.orange-header").first();
-        midTable = parentDiv.select("table:not(.orange-header)").first();
-        btmTable = parentDiv.select("table:not(.orange-header)").last();
+        super(response);
     }
 
     public FourDLotteryResult parse() {
@@ -49,7 +39,7 @@ public class FourDHTMLParser implements ResultParser {
         int lotteryID = parseID();
         Calendar lotteryDate = parseDate();
 
-        List<Integer> standAloneNos = filterStandaloneNo();
+        List<Integer> standAloneNos = parseStandaloneNo();
 
         List<FourDLotteryNumber> starterNos = parseNo(lotteryID, lotteryDate, LottoConst.SGPOOLS_4D_STARTER);
         List<FourDLotteryNumber> consolationNos = parseNo(lotteryID, lotteryDate, LottoConst.SGPOOLS_4D_CONSOLATION);
@@ -57,12 +47,21 @@ public class FourDHTMLParser implements ResultParser {
         return new FourDLotteryResult(lotteryID, lotteryDate, standAloneNos, starterNos, consolationNos);
     }
 
-    private int parseID() {
+    public void trimString() {
+        Document doc = Jsoup.parse(response);
+        Elements parentDiv = doc.select("div.four-d-results").first().select("div.tables-wrap");
+        topTable = parentDiv.select("table.orange-header").first();
+        midTable = parentDiv.select("table:not(.orange-header)").first();
+        btmTable = parentDiv.select("table:not(.orange-header)").last();
+    }
+
+
+    protected int parseID() {
         String lotteryIDStr = topTable.select("th.drawNumber").first().text();
         return Integer.parseInt(lotteryIDStr.substring(9));
     }
 
-    private Calendar parseDate() {
+    protected Calendar parseDate() {
         String lotteryDateStr = topTable.select("th.drawDate").first().text();
         lotteryDateStr = lotteryDateStr.substring(5);
         int day = Integer.parseInt(lotteryDateStr.substring(0,2));
@@ -91,7 +90,7 @@ public class FourDHTMLParser implements ResultParser {
         return standaloneLotteryNos;
     }
 
-    private List<Integer> filterStandaloneNo() {
+    private List<Integer> parseStandaloneNo() {
         Element standaloneNosNode = topTable.select("tbody").first();
         List<String> allNos = standaloneNosNode.select("tr > td").eachText();
         List<Integer> allNosInt = new ArrayList<>();

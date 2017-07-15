@@ -10,7 +10,9 @@ package sg.reddotdev.sharkfin.util;
 import android.util.Log;
 
 public class DebugTool {
-    public void logLargeString(String str) {
+    private DebugTool() {}
+
+    public static void logLargeString(String str) {
         if(str.length() > 3000) {
             Log.i("Process", str.substring(0, 3000));
             logLargeString(str.substring(3000));

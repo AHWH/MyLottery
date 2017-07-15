@@ -12,12 +12,20 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import sg.reddotdev.sharkfin.R;
+import sg.reddotdev.sharkfin.data.model.LotteryResult;
+import sg.reddotdev.sharkfin.data.parser.ResultParser;
+import sg.reddotdev.sharkfin.data.parser.impl.TotoHTMLParser;
+import sg.reddotdev.sharkfin.data.transaction.ResultDatabaseManager;
+import sg.reddotdev.sharkfin.data.transaction.impl.TotoDatabaseManager;
 import sg.reddotdev.sharkfin.manager.base.ResultRetrievalManager;
 import sg.reddotdev.sharkfin.manager.impl.TotoRetrievalManager;
 
 
-public class TotoActivity extends AppCompatActivity implements ResultRetrievalManager.ResultRetrievalManagerListener {
+public class TotoActivity extends AppCompatActivity
+        implements ResultRetrievalManager.ResultRetrievalManagerListener,
+        ResultDatabaseManager.ResultDataManagerListener {
     private ResultRetrievalManager totoRetrievalManager;
+    private ResultDatabaseManager totoDatabaseManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,16 +57,48 @@ public class TotoActivity extends AppCompatActivity implements ResultRetrievalMa
     @Override
     protected void onDestroy() {
         totoRetrievalManager.unregisterListener();
+        totoDatabaseManager.unregisterListener();
         super.onDestroy();
     }
 
-    @Override
-    public void onSuccessfulRetrievedResult() {
 
+
+    /*Listeners for ResultRetrieve*/
+    @Override
+    public void onSuccessfulRetrievedResult(String response) {
+        /*Parse the result into 4D Result Objects*/
+        /*To be saved into DB and view to show*/
+        ResultParser fourDHTMLParcer = new TotoHTMLParser(response);
+        final LotteryResult totoLotteryResult = fourDHTMLParcer.parse();
+        totoDatabaseManager = new TotoDatabaseManager();
+        totoDatabaseManager.registerListener(this);
+        totoDatabaseManager.save(totoLotteryResult);
     }
 
     @Override
     public void onFailureRetrievedResult() {
+        /*TODO: implement proper error handling mechanism*/
+    }
 
+
+    /*Listeners for ResultDataManager*/
+    @Override
+    public void onSuccessSave() {
+
+    }
+
+    @Override
+    public void onFailureSave() {
+        /*TODO: implement proper error handling mechanism*/
+    }
+
+    @Override
+    public void onSuccessRetrieve() {
+
+    }
+
+    @Override
+    public void onFailureRetrieve() {
+        /*TODO: implement proper error handling mechanism*/
     }
 }

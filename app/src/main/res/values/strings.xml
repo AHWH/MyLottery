@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">MyLottery</string>
+
+    <string name="fourDActivity">4D Results</string>
+    <string name="totoActivity">Toto Results</string>
+    <string name="bigSweepActivity">Singapore Sweep Results</string>
+
+    <string name="bottomNav_4D">4D</string>
+    <string name="bottomNav_Toto">Toto</string>
+    <string name="bottomNav_BigSweep">Big Sweep</string>
+
+
 </resources>

@@ -24,11 +24,15 @@ import sg.reddotdev.sharkfin.data.model.impl.BigSweepLottery5DNumber;
 import sg.reddotdev.sharkfin.data.model.impl.BigSweepLottery7DANumber;
 import sg.reddotdev.sharkfin.data.model.impl.BigSweepLottery7DNumber;
 import sg.reddotdev.sharkfin.data.model.impl.BigSweepLotteryResult;
-import sg.reddotdev.sharkfin.data.transaction.ResultTransact;
-import sg.reddotdev.sharkfin.util.LottoConst;
+import sg.reddotdev.sharkfin.data.transaction.ResultDatabaseManagerBase;
+import sg.reddotdev.sharkfin.util.constants.LottoConst;
 
 
-public class BigSweepResultTransact implements ResultTransact {
+public class BigSweepResultDatabaseManager extends ResultDatabaseManagerBase {
+    public BigSweepResultDatabaseManager() {
+        super();
+    }
+
     @Override
     public void save(final LotteryResult lotteryResult) {
         DatabaseDefinition db = FlowManager.getDatabase(LotteryDatabase.class);
@@ -60,12 +64,13 @@ public class BigSweepResultTransact implements ResultTransact {
             @Override
             public void onSuccess(@NonNull Transaction transaction) {
                 Log.d("Process", "Successfully saved!");
-                //retrieveResults();
+                listener.onSuccessSave();
             }
         }).error(new Transaction.Error() {
             @Override
             public void onError(@NonNull Transaction transaction, @NonNull Throwable error) {
                 Log.d("Process", "Failed to save!");
+                listener.onFailureSave();
             }
         }).build();
         transaction.execute();

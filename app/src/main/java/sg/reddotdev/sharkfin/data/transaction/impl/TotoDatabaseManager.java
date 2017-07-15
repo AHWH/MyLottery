@@ -16,38 +16,57 @@ import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
 import com.raizlabs.android.dbflow.structure.database.transaction.ITransaction;
 import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
 
+import java.util.List;
+
 import sg.reddotdev.sharkfin.data.database.LotteryDatabase;
 import sg.reddotdev.sharkfin.data.model.LotteryResult;
-import sg.reddotdev.sharkfin.data.model.impl.FourDLotteryNumber;
-import sg.reddotdev.sharkfin.data.model.impl.FourDLotteryResult;
-import sg.reddotdev.sharkfin.data.transaction.ResultTransact;
-import sg.reddotdev.sharkfin.util.LottoConst;
+import sg.reddotdev.sharkfin.data.model.TotoWinner;
+import sg.reddotdev.sharkfin.data.model.impl.TotoLotteryNumber;
+import sg.reddotdev.sharkfin.data.model.impl.TotoLotteryResult;
+import sg.reddotdev.sharkfin.data.model.impl.TotoWinningBoard;
+import sg.reddotdev.sharkfin.data.transaction.ResultDatabaseManagerBase;
+import sg.reddotdev.sharkfin.util.constants.LottoConst;
 
 
-public class FourDResultTransact implements ResultTransact {
-
+public class TotoDatabaseManager extends ResultDatabaseManagerBase {
+    @Override
     public void save(final LotteryResult lotteryResult) {
         DatabaseDefinition db = FlowManager.getDatabase(LotteryDatabase.class);
         Transaction transaction = db.beginTransactionAsync(new ITransaction() {
             @Override
             public void execute(DatabaseWrapper databaseWrapper) {
                 Log.d("Process", "Saving");
-                FourDLotteryResult fourDLotteryResult = (FourDLotteryResult) lotteryResult;
-                fourDLotteryResult.save();
-                new FourDLotteryNumber(fourDLotteryResult.getFirstPrize(), fourDLotteryResult.getLotteryID(), fourDLotteryResult.getDate(), LottoConst.SGPOOLS_4D_FIRST).save();
-                new FourDLotteryNumber(fourDLotteryResult.getSecondPrize(), fourDLotteryResult.getLotteryID(), fourDLotteryResult.getDate(), LottoConst.SGPOOLS_4D_SECOND).save();
-                new FourDLotteryNumber(fourDLotteryResult.getThirdPrize(), fourDLotteryResult.getLotteryID(), lotteryResult.getDate(), LottoConst.SGPOOLS_4D_THIRD).save();
+                TotoLotteryResult totoLotteryResult = (TotoLotteryResult) lotteryResult;
+                totoLotteryResult.save();
+
+                new TotoLotteryNumber(totoLotteryResult.getAdditionalNumber(), totoLotteryResult.getLotteryID(), totoLotteryResult.getDate(), LottoConst.SGPOOLS_TOTO_ADD_NUM).save();
+
+                TotoWinningBoard totoWinningBoard = totoLotteryResult.getTotoWinningBoard();
+                List<TotoWinner> grp1Winners = totoWinningBoard.getGroup1Winners();
+
+                for(TotoWinner totoWinner: grp1Winners) {
+                    totoWinner.getBranch().save();
+                }
+
+                List<TotoWinner> grp2Winners = totoWinningBoard.getGroup2Winners();
+
+                for(TotoWinner totoWinner: grp2Winners) {
+                    totoWinner.getBranch().save();
+                }
+
+                totoWinningBoard.save();
             }
         }).success(new Transaction.Success() {
             @Override
             public void onSuccess(@NonNull Transaction transaction) {
                 Log.d("Process", "Successfully saved!");
-                //retrieveResults();
+                listener.onSuccessSave();
             }
         }).error(new Transaction.Error() {
             @Override
             public void onError(@NonNull Transaction transaction, @NonNull Throwable error) {
                 Log.d("Process", "Failed to save!");
+                listener.onFailureSave();
             }
         }).build();
         transaction.execute();

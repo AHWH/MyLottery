@@ -14,7 +14,7 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import java.util.Calendar;
+import org.threeten.bp.ZonedDateTime;
 
 import sg.reddotdev.sharkfin.data.database.LotteryDatabase;
 
@@ -26,14 +26,14 @@ public class LotteryNumber extends BaseModel {
     @PrimaryKey
     private int lotteryID;
     @ForeignKey(tableClass = LotteryResult.class, references = {@ForeignKeyReference(columnName = "date", foreignKeyColumnName = "date")})
-    private Calendar date;
+    private ZonedDateTime date;
     @Column
     private int type;
 
     public LotteryNumber() {
     }
 
-    public LotteryNumber(int num, int lotteryID, Calendar date, int type) {
+    public LotteryNumber(int num, int lotteryID, ZonedDateTime date, int type) {
         this.num = num;
         this.lotteryID = lotteryID;
         this.date = date;
@@ -56,11 +56,11 @@ public class LotteryNumber extends BaseModel {
         this.lotteryID = lotteryID;
     }
 
-    public Calendar getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(Calendar date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 

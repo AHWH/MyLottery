@@ -11,11 +11,12 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 import sg.reddotdev.sharkfin.data.model.impl.BigSweepLottery2DNumber;
 import sg.reddotdev.sharkfin.data.model.impl.BigSweepLottery3DNumber;
@@ -23,19 +24,22 @@ import sg.reddotdev.sharkfin.data.model.impl.BigSweepLottery7DNumber;
 import sg.reddotdev.sharkfin.data.model.impl.BigSweepLotteryResult;
 import sg.reddotdev.sharkfin.data.parser.ResultParserBase;
 import sg.reddotdev.sharkfin.util.constants.LottoConst;
-import sg.reddotdev.sharkfin.util.MonthConverter;
 
 public class BigSweepHTMLParser extends ResultParserBase {
     private Element topHeader;
     private Element standalonePrizesTable;
+    @Nullable
     private Element superSweepTable;
+    @Nullable
     private Element cascadeTable;
     private Element jackpotPrizesTable;
     private Element luckyPrizesTable;
     private Element giftPrizesTable;
     private Element consolationPrizesTable;
+    @Nullable
     private Element participationPrizesTable;
     private Element delight2DPrizesTable;
+    @Nullable
     private Element delight3DPrizesTable;
 
     public BigSweepHTMLParser(String response) {
@@ -46,7 +50,7 @@ public class BigSweepHTMLParser extends ResultParserBase {
         trimString();
 
         int lotteryID = parseID();
-        Calendar date = parseDate();
+        ZonedDateTime date = parseDate();
 
         List<Integer> standalonePrizes = parseStandalone();
 
@@ -73,11 +77,13 @@ public class BigSweepHTMLParser extends ResultParserBase {
 
 
         Elements outerTables = parentDiv.select("div.table-responsive");
-        /*CAN BE NULL!!!!*/
+        @Nullable
         Elements expandedTables = outerTables.select("table:not(.expandable-container)");
         int count = 0;
-        for(Element e: expandedTables) {
-            count++;
+        if(expandedTables != null) {
+            for(Element e: expandedTables) {
+                count++;
+            }
         }
 
         if(count == 3) {
@@ -108,18 +114,13 @@ public class BigSweepHTMLParser extends ResultParserBase {
         return Integer.parseInt(lotteryIDStr);
     }
 
-    protected Calendar parseDate() {
+    protected ZonedDateTime parseDate() {
         String lotteryDateStr = topHeader.select("th.drawDate").first().text();
-        lotteryDateStr = lotteryDateStr.substring(5);
-        int day = Integer.parseInt(lotteryDateStr.substring(0,2));
-        int month = MonthConverter.convert(lotteryDateStr.substring(3,6));
-        int year = Integer.parseInt(lotteryDateStr.substring(7));
-        return new GregorianCalendar(year, month, day);
+        return parseDate(lotteryDateStr);
     }
 
     private List<Integer> parseStandalone() {
-        Element standaloneNosNode = standalonePrizesTable.select("tbody").first();
-        List<String> allNos = standaloneNosNode.select("tr > td").eachText();
+        List<String> allNos = filterNos(standalonePrizesTable);
         List<Integer> allNosInt = new ArrayList<>();
         for(String no: allNos) {
             allNosInt.add(Integer.parseInt(no));
@@ -128,35 +129,33 @@ public class BigSweepHTMLParser extends ResultParserBase {
     }
 
     private String parseSuperSweep() {
-        Element superSweepNode = superSweepTable.select("tbody").first();
-        String superSweepStr = superSweepNode.select("tr > td").eachText().get(0);
+        String superSweepStr = filterNos(superSweepTable).get(0);
         return superSweepStr.substring(0, 8);
     }
 
     private int parseCascadePrize() {
-        Element cascadeNode = cascadeTable.select("tbody").first();
-        String cascadePrizeStr = cascadeNode.select("tr > td").eachText().get(0);
+        String cascadePrizeStr = filterNos(cascadeTable).get(0);
         return Integer.parseInt(cascadePrizeStr.substring(0, 5));
     }
 
-    private List<BigSweepLottery7DNumber> parse7DNo(int lotteryID, Calendar date, int type) {
+    private List<BigSweepLottery7DNumber> parse7DNo(int lotteryID, ZonedDateTime date, int type) {
         List<BigSweepLottery7DNumber> sweepNos = new ArrayList<>();
         List<String> sweepNosStr = new ArrayList<>();
         switch (type) {
             case LottoConst.SGPOOLS_SWEEP_JACKPOT:
-                sweepNosStr = filterJackpotNo();
+                sweepNosStr = filterNos(jackpotPrizesTable);
                 break;
             case LottoConst.SGPOOLS_SWEEP_LUCKY:
-                sweepNosStr = filterLuckyNo();
+                sweepNosStr = filterNos(luckyPrizesTable);
                 break;
             case LottoConst.SGPOOLS_SWEEP_GIFT:
-                sweepNosStr = filterGiftNo();
+                sweepNosStr = filterNos(giftPrizesTable);
                 break;
             case LottoConst.SGPOOLS_SWEEP_CONSOLATION:
-                sweepNosStr = filterConsolationNo();
+                sweepNosStr = filterNos(consolationPrizesTable);
                 break;
             case LottoConst.SGPOOLS_SWEEP_PARTICIPATION:
-                sweepNosStr = filterParticipationNo();
+                sweepNosStr = filterNos(participationPrizesTable);
         }
 
         for(int i = 0; i < sweepNosStr.size(); i++) {
@@ -167,9 +166,9 @@ public class BigSweepHTMLParser extends ResultParserBase {
         return sweepNos;
     }
 
-    private List<BigSweepLottery2DNumber> parse2DNo(int lotteryID, Calendar date) {
+    private List<BigSweepLottery2DNumber> parse2DNo(int lotteryID, ZonedDateTime date) {
         List<BigSweepLottery2DNumber> sweepNos = new ArrayList<>();
-        List<String> sweepNosStr = filterDelight2DNo();
+        List<String> sweepNosStr = filterNos(delight2DPrizesTable);
         for(int i = 0; i < sweepNosStr.size(); i++) {
             int sweepNo = Integer.parseInt(sweepNosStr.get(i));
             sweepNos.add(new BigSweepLottery2DNumber(sweepNo, lotteryID, date, LottoConst.SGPOOLS_SWEEP_2D));
@@ -178,50 +177,14 @@ public class BigSweepHTMLParser extends ResultParserBase {
         return sweepNos;
     }
 
-    private List<BigSweepLottery3DNumber> parse3DNo(int lotteryID, Calendar date) {
+    private List<BigSweepLottery3DNumber> parse3DNo(int lotteryID, ZonedDateTime date) {
         List<BigSweepLottery3DNumber> sweepNos = new ArrayList<>();
-        List<String> sweepNosStr = filterDelight3DNo();
+        List<String> sweepNosStr = filterNos(delight3DPrizesTable);
         for(int i = 0; i < sweepNosStr.size(); i++) {
             int sweepNo = Integer.parseInt(sweepNosStr.get(i));
             sweepNos.add(new BigSweepLottery3DNumber(sweepNo, lotteryID, date, LottoConst.SGPOOLS_SWEEP_3D));
         }
 
         return sweepNos;
-    }
-
-
-    private List<String> filterJackpotNo() {
-        Element jackpotNosNode = jackpotPrizesTable.select("tbody").first();
-        return jackpotNosNode.select("tr > td").eachText();
-    }
-
-    private List<String> filterLuckyNo() {
-        Element luckyNosNode = luckyPrizesTable.select("tbody").first();
-        return luckyNosNode.select("tr > td").eachText();
-    }
-
-    private List<String> filterGiftNo() {
-        Element giftNosNode = giftPrizesTable.select("tbody").first();
-        return giftNosNode.select("tr > td").eachText();
-    }
-
-    private List<String> filterConsolationNo() {
-        Element consolationNosNode = consolationPrizesTable.select("tbody").first();
-        return consolationNosNode.select("tr > td").eachText();
-    }
-
-    private List<String> filterParticipationNo() {
-        Element participationNosNode = participationPrizesTable.select("tbody").first();
-        return participationNosNode.select("tr > td").eachText();
-    }
-
-    private List<String> filterDelight2DNo() {
-        Element delight2DNode = delight2DPrizesTable.select("tbody").first();
-        return delight2DNode.select("tr > td").eachText();
-    }
-
-    private List<String> filterDelight3DNo() {
-        Element delight3DNode = delight3DPrizesTable.select("tbody").first();
-        return delight3DNode.select("tr > td").eachText();
     }
 }

@@ -17,8 +17,8 @@ public class FourDRetrievalManager extends ResultRetrievalManagerBase {
         super();
     }
 
-    public void createRequest() {
-        setRequest(new FourDRequestBuilder().createRequest());
+    public void createRequest(int drawNo) {
+        setRequest(new FourDRequestBuilder().createRequest(drawNo));
     }
 
 }

@@ -17,6 +17,8 @@ public final class LottoConst {
     public static final int SGPOOLS_4D_THIRD = 103;
     public static final int SGPOOLS_4D_STARTER = 11;
     public static final int SGPOOLS_4D_CONSOLATION = 12;
+    public static final long SGPOOLS_4D_DRAW1000_EPOCH_MS = Long.parseLong("819801000000");
+    public static final long SGPOOLS_4D_DRAW1482_EPOCH_MS = Long.parseLong("965557800000");
 
     public static final int SGPOOLS_TOTO = 2;
     public static final int SGPOOLS_TOTO_NUM = 20;

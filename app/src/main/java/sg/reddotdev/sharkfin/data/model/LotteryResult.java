@@ -1,14 +1,12 @@
 package sg.reddotdev.sharkfin.data.model;
 
-import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import java.util.Calendar;
+import org.threeten.bp.ZonedDateTime;
 
 import sg.reddotdev.sharkfin.data.database.LotteryDatabase;
-import sg.reddotdev.sharkfin.data.typeconverter.CalendarTypeConverter;
 
 /**
  * Created by weiho on 3/7/2017.
@@ -18,11 +16,11 @@ public class LotteryResult extends BaseModel {
     @PrimaryKey
     private int lotteryID;
     @PrimaryKey
-    private Calendar date;
+    private ZonedDateTime date;
 
     public LotteryResult() {}
 
-    public LotteryResult(int lotteryID, Calendar date) {
+    public LotteryResult(int lotteryID, ZonedDateTime date) {
         this.lotteryID = lotteryID;
         this.date = date;
     }
@@ -35,11 +33,11 @@ public class LotteryResult extends BaseModel {
         this.lotteryID = lotteryID;
     }
 
-    public Calendar getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(Calendar date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 
@@ -48,9 +46,9 @@ public class LotteryResult extends BaseModel {
         return "===4D Results\n"
                 + "Draw No: " + getLotteryID()
                 + ", Date: "
-                + date.get(Calendar.DAY_OF_MONTH) + " "
-                + date.get(Calendar.MONTH) + " "
-                + date.get(Calendar.YEAR) + ", "
-                + date.get(Calendar.DAY_OF_WEEK) + "\n";
+                + date.getDayOfMonth() + " "
+                + date.getMonth().getValue() + " "
+                + date.getYear() + ", "
+                + date.getDayOfWeek().getValue() + "\n";
     }
 }

@@ -13,10 +13,9 @@ import com.raizlabs.android.dbflow.annotation.ForeignKeyReference;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 
-import java.util.Calendar;
+import org.threeten.bp.ZonedDateTime;
 
 import sg.reddotdev.sharkfin.data.database.LotteryDatabase;
-import sg.reddotdev.sharkfin.data.model.impl.TotoLotteryResult;
 
 /*This table is only for Group 1 and 2 Winner*/
 @Table(database = LotteryDatabase.class)
@@ -25,7 +24,7 @@ public class TotoWinner {
     @PrimaryKey
     private int lotteryID;
     @ForeignKey(tableClass = LotteryResult.class, references = {@ForeignKeyReference(columnName = "date", foreignKeyColumnName = "date")})
-    private Calendar date;
+    private ZonedDateTime date;
 
     @PrimaryKey
     private int winningGrp;
@@ -43,7 +42,7 @@ public class TotoWinner {
     public TotoWinner() {
     }
 
-    public TotoWinner(int lotteryID, Calendar date, int duplicatePrevention, Branch branch, int winningGrp, String winningType) {
+    public TotoWinner(int lotteryID, ZonedDateTime date, int duplicatePrevention, Branch branch, int winningGrp, String winningType) {
         this.lotteryID = lotteryID;
         this.date = date;
         this.duplicatePrevention = duplicatePrevention;
@@ -60,11 +59,11 @@ public class TotoWinner {
         this.lotteryID = lotteryID;
     }
 
-    public Calendar getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(Calendar date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 

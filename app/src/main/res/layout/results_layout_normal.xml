@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) RedDotDev 2017.
+  ~
+  ~ The following codes are property of the RedDotDev.
+  ~ Unless subject to explicit written approval, there should be no reproduction of the codes in any means.
+  -->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/esults_layout_normal_relayout"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="#fff">
+    
+
+    <LinearLayout
+        android:id="@+id/results_layout_normal_dateday_lineLayout"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/results_layout_normal_dateday_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30"
+            android:textSize="32sp"
+            android:textColor="#2541B2"/>
+
+        <TextView
+            android:id="@+id/results_layout_normal_dateday_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="THU"
+            android:textSize="14sp"/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/results_layout_normal_results_lineLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@+id/results_layout_normal_dateday_lineLayout"
+        android:layout_toStartOf="@+id/results_layout_normal_arrow_lineLayout"
+        android:gravity="start|center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/results_layout_normal_results_drawNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:text="Draw No: 8888"
+            android:textSize="17sp"
+            android:textColor="#2541B2"/>
+
+        <TextView
+            android:id="@+id/results_layout_normal_results_first"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="First Prize: 8887"
+            android:textSize="15sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/results_layout_normal_arrow_lineLayout"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:gravity="start|center_vertical"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/results_layout_normal_arrow_arrow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_results_arrow_right"
+            android:tint="#1768AC"/>
+    </LinearLayout>
+    
+</RelativeLayout>

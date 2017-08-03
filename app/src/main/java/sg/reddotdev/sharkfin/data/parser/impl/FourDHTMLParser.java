@@ -11,17 +11,15 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.threeten.bp.ZonedDateTime;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import sg.reddotdev.sharkfin.data.model.impl.FourDLotteryNumber;
 import sg.reddotdev.sharkfin.data.model.impl.FourDLotteryResult;
 import sg.reddotdev.sharkfin.data.parser.ResultParserBase;
 import sg.reddotdev.sharkfin.util.constants.LottoConst;
-import sg.reddotdev.sharkfin.util.MonthConverter;
 
 
 public class FourDHTMLParser extends ResultParserBase {
@@ -37,7 +35,7 @@ public class FourDHTMLParser extends ResultParserBase {
         trimString();
 
         int lotteryID = parseID();
-        Calendar lotteryDate = parseDate();
+        ZonedDateTime lotteryDate = parseDate();
 
         List<Integer> standAloneNos = parseStandaloneNo();
 
@@ -61,25 +59,21 @@ public class FourDHTMLParser extends ResultParserBase {
         return Integer.parseInt(lotteryIDStr.substring(9));
     }
 
-    protected Calendar parseDate() {
+    protected ZonedDateTime parseDate() {
         String lotteryDateStr = topTable.select("th.drawDate").first().text();
-        lotteryDateStr = lotteryDateStr.substring(5);
-        int day = Integer.parseInt(lotteryDateStr.substring(0,2));
-        int month = MonthConverter.convert(lotteryDateStr.substring(3,6));
-        int year = Integer.parseInt(lotteryDateStr.substring(7));
-        return new GregorianCalendar(year, month, day);
+        return parseDate(lotteryDateStr);
     }
 
 
-    private List<FourDLotteryNumber> parseNo(int lotteryID, Calendar lotteryDate, int type) {
+    private List<FourDLotteryNumber> parseNo(int lotteryID, ZonedDateTime lotteryDate, int type) {
         List<FourDLotteryNumber> standaloneLotteryNos = new ArrayList<>();
         List<String> standaloneNos = new ArrayList<>();
         switch (type) {
             case LottoConst.SGPOOLS_4D_STARTER:
-                standaloneNos = filterStarterNo();
+                standaloneNos = filterNos(midTable);
                 break;
             case LottoConst.SGPOOLS_4D_CONSOLATION:
-                standaloneNos = filterConsolationNo();
+                standaloneNos = filterNos(btmTable);
         }
 
         for(int i = 0; i < standaloneNos.size(); i++) {
@@ -91,23 +85,11 @@ public class FourDHTMLParser extends ResultParserBase {
     }
 
     private List<Integer> parseStandaloneNo() {
-        Element standaloneNosNode = topTable.select("tbody").first();
-        List<String> allNos = standaloneNosNode.select("tr > td").eachText();
+        List<String> allNos = filterNos(topTable);
         List<Integer> allNosInt = new ArrayList<>();
         for(String no: allNos) {
             allNosInt.add(Integer.parseInt(no));
         }
         return allNosInt;
     }
-
-    private List<String> filterStarterNo() {
-        Element starterNosNode = midTable.select("tbody").first();
-        return starterNosNode.select("tr > td").eachText();
-    }
-
-    private List<String> filterConsolationNo() {
-        Element consolationNosNode = btmTable.select("tbody").first();
-        return consolationNosNode.select("tr > td").eachText();
-    }
-
 }

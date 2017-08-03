@@ -7,23 +7,31 @@
 
 package sg.reddotdev.sharkfin.data.typeconverter;
 
+import android.util.Log;
+
 import com.raizlabs.android.dbflow.converter.TypeConverter;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZonedDateTime;
+
+import sg.reddotdev.sharkfin.util.CalendarConverter;
+import sg.reddotdev.sharkfin.util.constants.AppLocale;
 
 @com.raizlabs.android.dbflow.annotation.TypeConverter
-public class CalendarTypeConverter extends TypeConverter<String, Calendar> {
+public class CalendarTypeConverter extends TypeConverter<String, ZonedDateTime> {
     @Override
-    public String getDBValue(Calendar model) {
-        return model.DAY_OF_MONTH + " " + model.MONTH + " " + model.YEAR;
+    public String getDBValue(ZonedDateTime model) {
+        return model.getDayOfMonth() + " "
+                + CalendarConverter.monthNoToFullConvert(model.getMonth().getValue()) + " "
+                + model.getYear() + ", "
+                + CalendarConverter.dayNoToFullConvert(model.getDayOfWeek().getValue()) + " ("
+                + model.getZone().getId() + ")";
     }
 
     @Override
-    public Calendar getModelValue(String data) {
-        String[] dateArr = data.split("\\s");
-        Calendar returnCalendar = new GregorianCalendar(Integer.parseInt(dateArr[0]), Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[2]));
-        return returnCalendar;
+    public ZonedDateTime getModelValue(String data) {
+        String[] dateArr = data.split("\\s|,|\\(|\\)");
+        return ZonedDateTime.of(Integer.parseInt(dateArr[2]), CalendarConverter.monthFullToNoConvert(dateArr[1]), Integer.parseInt(dateArr[0]), 18, 30, 0, 0, AppLocale.gmt8Zone);
     }
 }
 

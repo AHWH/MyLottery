@@ -18,6 +18,7 @@ import com.androidnetworking.interfaces.StringRequestListener;
  */
 
 public abstract class ResultRetrievalManagerBase implements ResultRetrievalManager{
+    private String LOGTAG = getClass().getSimpleName();
     private ResultRetrievalManagerListener listener;
     private ANRequest request;
 
@@ -27,7 +28,7 @@ public abstract class ResultRetrievalManagerBase implements ResultRetrievalManag
         retryCount = 0;
     }
 
-    public abstract void createRequest();
+    public abstract void createRequest(int drawNo);
 
 
     public void retrieve() {
@@ -35,14 +36,14 @@ public abstract class ResultRetrievalManagerBase implements ResultRetrievalManag
             request.getAsString(new StringRequestListener() {
                 @Override
                 public void onResponse(String response) {
-                    Log.d("Process", "Successfully retrieved!");
+                    Log.d(LOGTAG, "Successfully retrieved!");
                     validate(response);
                 }
 
                 @Override
                 public void onError(ANError anError) {
-                    Log.d("Process", "Failed to retrieve!");
-                    Log.d("Process", anError.getErrorDetail());
+                    Log.d(LOGTAG, "Failed to retrieve!");
+                    Log.d(LOGTAG, anError.getErrorDetail());
                     if(listener != null) {
                         listener.onFailureRetrievedResult();
                     }
@@ -51,6 +52,7 @@ public abstract class ResultRetrievalManagerBase implements ResultRetrievalManag
         }
     }
 
+    /*TODO: Validate more!*/
     @Override
     public void validate(String response) {
         /*Checks if full content is loaded*/

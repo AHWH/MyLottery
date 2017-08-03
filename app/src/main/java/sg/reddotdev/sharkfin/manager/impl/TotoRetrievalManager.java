@@ -17,7 +17,7 @@ public class TotoRetrievalManager extends ResultRetrievalManagerBase {
         super();
     }
 
-    public void createRequest() {
-        setRequest(new TotoRequestBuilder().createRequest());
+    public void createRequest(int drawNo) {
+        setRequest(new TotoRequestBuilder().createRequest(drawNo));
     }
 }

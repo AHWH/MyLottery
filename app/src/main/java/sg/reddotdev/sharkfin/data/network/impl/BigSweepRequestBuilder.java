@@ -19,18 +19,18 @@ import sg.reddotdev.sharkfin.util.constants.LottoURLEndpoint;
 
 public class BigSweepRequestBuilder implements ANRequestInt {
     @Override
-    public ANRequest createRequest() {
+    public ANRequest createRequest(int drawNo) {
         return AndroidNetworking.get(LottoURLEndpoint.BIGSWEEP_URL)
-                                .addQueryParameter(LottoConst.PARAM, buildQueryParam())
+                                .addQueryParameter(LottoConst.PARAM, buildQueryParam(drawNo))
                                 .setPriority(Priority.LOW)
                                 .build();
     }
 
     @Override
-    public String buildQueryParam() {
+    public String buildQueryParam(int drawNo) {
         /*Check ReverseURL.xlsx for more info*/
         QueryParamBuilder queryParamBuilder = new BigSweepQueryParamBuilder(LottoConst.QUERY_INIITAL);
-        queryParamBuilder.buildParam(22008);
+        queryParamBuilder.buildParam(drawNo);
         return queryParamBuilder.getQueryParam();
     }
 }

@@ -20,22 +20,22 @@ import sg.reddotdev.sharkfin.util.impl.FourDTotoQueryParamBuilder;
 
 public class TotoRequestBuilder implements ANRequestInt {
     @Override
-    public ANRequest createRequest() {
+    public ANRequest createRequest(int drawNo) {
         return AndroidNetworking.get(LottoURLEndpoint.TOTO_URL)
-                                .addQueryParameter(LottoConst.PARAM, buildQueryParam())
+                                .addQueryParameter(LottoConst.PARAM, buildQueryParam(drawNo))
                                 .setPriority(Priority.LOW)
                                 .build();
     }
 
     @Override
-    public String buildQueryParam() {
-        /*Capped at Draw 1001*/
+    public String buildQueryParam(int drawNo) {
+        /*Capped at Draw 1001 (RHJhd051bWJlcj0xMDAx)*/
         /*Draw 1282 (RHJhd051bWJlcj0xMjgy, Mon, 11 May 1998) is the first draw to show prize amount fully*/
         /*Draw 1281 returns error*/
         /*Draw 1194 (RHJhd051bWJlcj0xMTk0, Thu, 03 Jul 1997) is the first draw to show correct dates. Earlier default to 1 Jan 0001*/
 
         QueryParamBuilder queryParamBuilder = new FourDTotoQueryParamBuilder(LottoConst.QUERY_INIITAL);
-        queryParamBuilder.buildParam(3281);
+        queryParamBuilder.buildParam(drawNo);
         return queryParamBuilder.getQueryParam();
     }
 }

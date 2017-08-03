@@ -12,6 +12,8 @@ import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import org.threeten.bp.ZonedDateTime;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class FourDLotteryResult extends LotteryResult {
 
     public FourDLotteryResult() {}
 
-    public FourDLotteryResult(int lotteryID, Calendar date, List<Integer> standaloneNos, List<FourDLotteryNumber> starterNumbers, List<FourDLotteryNumber> consolationNumbers) {
+    public FourDLotteryResult(int lotteryID, ZonedDateTime date, List<Integer> standaloneNos, List<FourDLotteryNumber> starterNumbers, List<FourDLotteryNumber> consolationNumbers) {
         super(lotteryID, date);
         firstPrize = standaloneNos.get(0);
         secondPrize = standaloneNos.get(1);

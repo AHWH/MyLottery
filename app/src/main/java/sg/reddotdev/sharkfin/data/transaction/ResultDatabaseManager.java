@@ -7,6 +7,8 @@
 
 package sg.reddotdev.sharkfin.data.transaction;
 
+import java.util.List;
+
 import javax.xml.transform.Result;
 
 import sg.reddotdev.sharkfin.data.model.LotteryResult;
@@ -18,13 +20,13 @@ public interface ResultDatabaseManager {
         void onSuccessSave();
         void onFailureSave();
 
-        void onSuccessRetrieve();
+        void onSuccessRetrieve(List<? extends LotteryResult> lotteryResultList);
         void onFailureRetrieve();
     }
 
     void save(final LotteryResult lotteryResult);
 
-    LotteryResult retrieve();
+    void retrieve();
 
     void registerListener(ResultDataManagerListener listener);
     void unregisterListener();

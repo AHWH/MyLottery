@@ -5,9 +5,36 @@
     <string name="totoActivity">Toto Results</string>
     <string name="bigSweepActivity">Singapore Sweep Results</string>
 
+    <string name="toolbarNextDraw">Next Draw</string>
+    <string name="toolbarNextDraw_Def">Unknown</string>
+
+
     <string name="bottomNav_4D">4D</string>
     <string name="bottomNav_Toto">Toto</string>
     <string name="bottomNav_BigSweep">Big Sweep</string>
 
+
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="drawer_Settings">Settings</string>
+
+    <string name="snackbar_retry">Retry</string>
+    <string name="snackbar_network">Change Settings</string>
+
+    <string name="main_nextDraw">Next Draw:</string>
+    <string name="main_drawNo">Draw No:</string>
+
+    <string name="fourd_main_firstPrize">First Prize:</string>
+    <string name="fourd_main_secondPrize">Second Prize:</string>
+    <string name="fourd_main_thirdPrize">Third Prize:</string>
+
+    <string name="toto_main_firstPrizeAmt">First Prize Jackpot:</string>
+    <string name="toto_main_winningNos">Winning Nos.:</string>
+    <string name="toto_main_addWinningNos">Additional Winning No.:</string>
+
+    <string name="bigSweep_main_firstPrizeAmt">First Prize Amount:</string>
+    <string name="bigSweep_main_firstPrize">First Prize:</string>
+    <string name="bigSweep_main_secondPrize">Second Prize:</string>
 
 </resources>

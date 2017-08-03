@@ -10,7 +10,7 @@ package sg.reddotdev.sharkfin.data.model.impl;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.Table;
 
-import java.util.Calendar;
+import org.threeten.bp.ZonedDateTime;
 
 import sg.reddotdev.sharkfin.data.database.LotteryDatabase;
 import sg.reddotdev.sharkfin.data.model.LotteryNumber;
@@ -23,7 +23,7 @@ public class BigSweepLottery7DANumber extends LotteryNumber {
     public BigSweepLottery7DANumber(){
     }
 
-    public BigSweepLottery7DANumber(int num, int lotteryID, Calendar date, int type, char finalAlphabet) {
+    public BigSweepLottery7DANumber(int num, int lotteryID, ZonedDateTime date, int type, char finalAlphabet) {
         super(num, lotteryID, date, type);
         this.finalAlphabet = finalAlphabet;
     }

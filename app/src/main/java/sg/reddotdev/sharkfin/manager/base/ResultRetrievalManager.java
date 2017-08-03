@@ -14,8 +14,7 @@ import sg.reddotdev.sharkfin.data.model.LotteryResult;
 /*This interface is the blueprint of every retrieval mechanism for 4D/TOTO/BigSweep*/
 public interface ResultRetrievalManager {
     /*Internal interface to be implemented by Presenter (Activity/Fragment)
-      Used for callbacks purposes
-     */
+      Used for callbacks purposes */
     interface ResultRetrievalManagerListener {
         void onSuccessfulRetrievedResult(String response);
 
@@ -23,7 +22,7 @@ public interface ResultRetrievalManager {
     }
 
     /*Create Request*/
-    void createRequest();
+    void createRequest(int drawNo);
 
     /*Retrieved Result*/
     void retrieve();

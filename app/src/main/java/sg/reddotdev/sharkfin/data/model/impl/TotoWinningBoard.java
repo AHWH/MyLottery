@@ -16,7 +16,8 @@ import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import java.util.Calendar;
+import org.threeten.bp.ZonedDateTime;
+
 import java.util.List;
 
 import sg.reddotdev.sharkfin.data.database.LotteryDatabase;
@@ -33,7 +34,7 @@ public class TotoWinningBoard extends BaseModel {
     @ForeignKey(tableClass = LotteryResult.class, references = {@ForeignKeyReference(columnName = "lotteryID", foreignKeyColumnName = "lotteryID")})
     private int lotteryID;
     @ForeignKey(tableClass = LotteryResult.class, references = {@ForeignKeyReference(columnName = "date", foreignKeyColumnName = "date")})
-    private Calendar date;
+    private ZonedDateTime date;
 
     @Column
     private double group1PrizeAmt;
@@ -69,7 +70,7 @@ public class TotoWinningBoard extends BaseModel {
     public TotoWinningBoard() {
     }
 
-    public TotoWinningBoard(int lotteryID, Calendar date, List<Double> grp1To4Prizes, List<Integer> grp3To7WinnersAmt, List<TotoWinner> group1Winners, List<TotoWinner> group2Winners) {
+    public TotoWinningBoard(int lotteryID, ZonedDateTime date, List<Double> grp1To4Prizes, List<Integer> grp3To7WinnersAmt, List<TotoWinner> group1Winners, List<TotoWinner> group2Winners) {
         this.lotteryID = lotteryID;
         this.date = date;
 
@@ -109,11 +110,11 @@ public class TotoWinningBoard extends BaseModel {
         this.lotteryID = lotteryID;
     }
 
-    public Calendar getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(Calendar date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 

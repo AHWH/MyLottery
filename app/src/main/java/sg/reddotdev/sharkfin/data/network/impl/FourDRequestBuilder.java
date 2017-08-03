@@ -19,17 +19,18 @@ import sg.reddotdev.sharkfin.util.impl.FourDTotoQueryParamBuilder;
 
 public class FourDRequestBuilder implements ANRequestInt {
     @Override
-    public ANRequest createRequest() {
+    public ANRequest createRequest(int drawNo) {
         return AndroidNetworking.get(LottoURLEndpoint.FOURD_URL)
-                                .addQueryParameter(LottoConst.PARAM, buildQueryParam())
+                                .addQueryParameter(LottoConst.PARAM, buildQueryParam(drawNo))
                                 .setPriority(Priority.LOW)
                                 .build();
     }
 
-    public String buildQueryParam() {
-        /*Capped at Draw 1000*/
+    public String buildQueryParam(int drawNo) {
+        /*Capped at Draw 1000 (RHJhd051bWJlcj0xMDAw, Sun, 24 Dec 1995)*/
+        /*From Draw 1000 to 1482 (RHJhd051bWJlcj0xNDgy, Sun, 06 Aug 2000). There is only draw on Sat and Sun*/
         QueryParamBuilder queryParamBuilder = new FourDTotoQueryParamBuilder(LottoConst.QUERY_INIITAL);
-        queryParamBuilder.buildParam(4129);
+        queryParamBuilder.buildParam(drawNo);
         return queryParamBuilder.getQueryParam();
     }
 }

@@ -7,47 +7,99 @@
 
 package sg.reddotdev.sharkfin.view.root;
 
-import android.content.Context;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ToolbarWidgetWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toolbar;
+import android.widget.TextView;;
+
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.format.DateTimeFormatter;
 
 import sg.reddotdev.sharkfin.R;
-import sg.reddotdev.sharkfin.view.ViewMVP;
+import sg.reddotdev.sharkfin.data.adapter.FourDMainRecyclerAdapter;
+import sg.reddotdev.sharkfin.data.model.LotteryResult;
+import sg.reddotdev.sharkfin.util.constants.AppLocale;
+import sg.reddotdev.sharkfin.view.viewholder.RecyclerViewHolder;
 
 /**
  * Created by weihong on 15/7/17.
  */
 
-public class FourDRootView implements ViewMVP {
-    private View rootView;
-    private AppCompatActivity mActivity;
+public class FourDRootView extends RootViewImpl implements RecyclerViewHolder.OnClickListener {
+    private FourDMainRecyclerAdapter adapter;
 
     public FourDRootView(LayoutInflater inflater, ViewGroup container, AppCompatActivity activity) {
-        rootView = inflater.inflate(R.layout.activity_main, container);
-        initialise();
+        super(inflater.inflate(R.layout.fourd_activity, container), activity);
 
+        setupToolbar();
+        setupNextDrawDate();
+        setupRecyclerViewAdapter();
     }
 
     @Override
-    public View getRootView() {
-        return rootView;
+    public void updateRecyclerViewAdapter() {
+        adapter.notifyDataSetChanged();
     }
 
+    /*From Adapter to rootview*/
     @Override
-    public Bundle getViewState() {
-        return null;
+    public void onResultClick(LotteryResult lotteryResult) {
+        onItemClick(lotteryResult);
     }
 
-    private void initialise() {
-        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) rootView.findViewById(R.id.toolbar);
-        if(toolbar != null) {
-            mActivity.setSupportActionBar(toolbar);
+    protected void setupToolbar() {
+        getToolbar().setTitle(R.string.fourDActivity);
+    }
+
+    protected void setupNextDrawDate() {
+        View rootView = getRootView();
+        TextView nextDrawDateTV = (TextView) rootView.findViewById(R.id.nextDraw_Date_textView);
+        TextView nextDrawDayTimeTV = (TextView) rootView.findViewById(R.id.nextDraw_DayTime_textView);
+
+        ZonedDateTime currentDateTime = ZonedDateTime.now(AppLocale.gmt8Zone);
+        ZonedDateTime newDateTime = currentDateTime.withHour(18).withMinute(30);
+        DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("d LLLL yyyy, EEEE, HH:mm");
+        int currentDay = currentDateTime.getDayOfWeek().getValue();
+
+        switch (currentDay) {
+            case 1:case 4:
+                newDateTime = newDateTime.plusDays(2);
+                break;
+            case 2:case 5:
+                newDateTime = newDateTime.plusDays(1);
+                break;
+            case 3:case 7:
+                if(newDateTime.getHour() >= 18 && newDateTime.getMinute() >= 30) {
+                    newDateTime = newDateTime.plusDays(3);
+                }
+                break;
+            case 6:
+                if(newDateTime.getHour() >= 18 & newDateTime.getMinute() >= 30) {
+                    newDateTime = newDateTime.plusDays(1);
+                }
+                break;
 
         }
+        String[] dateTimeArr = newDateTime.format(dateTimeFormat).split(",\\s");
+        nextDrawDateTV.setText(dateTimeArr[0]);
+        nextDrawDayTimeTV.setText(dateTimeArr[1] + ", " + dateTimeArr[2]);
     }
+
+    protected void setupRecyclerViewAdapter() {
+        adapter = new FourDMainRecyclerAdapter(getLotteryResults());
+        getResultsRecyclerView().setAdapter(adapter);
+        adapter.registerListener(this);
+    }
+
+    @Override
+    public void onDestroyAdapterListener() {
+        adapter.unregisterListener();
+    }
+
+    public void onItemClick(LotteryResult lotteryResult) {
+        getListener().onItemClick(lotteryResult);
+    }
+
 }

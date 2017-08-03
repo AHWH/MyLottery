@@ -10,8 +10,7 @@ package sg.reddotdev.sharkfin.data.network;
 import com.androidnetworking.common.ANRequest;
 
 public interface ANRequestInt {
-    ANRequest createRequest();
+    ANRequest createRequest(int drawNo);
 
-    /*TODO: Implement logic to derived lotteryID*/
-    String buildQueryParam();
+    String buildQueryParam(int drawNo);
 }

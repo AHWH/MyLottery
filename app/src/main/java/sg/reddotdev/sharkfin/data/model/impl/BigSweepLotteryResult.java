@@ -12,7 +12,8 @@ import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import java.util.Calendar;
+import org.threeten.bp.ZonedDateTime;
+
 import java.util.List;
 
 import sg.reddotdev.sharkfin.data.database.LotteryDatabase;
@@ -54,7 +55,7 @@ public class BigSweepLotteryResult extends LotteryResult {
     public BigSweepLotteryResult() {
     }
 
-    public BigSweepLotteryResult(int lotteryID, Calendar date, List<Integer> standaloneNos, String superSweepNumber, int cascadeNumber,
+    public BigSweepLotteryResult(int lotteryID, ZonedDateTime date, List<Integer> standaloneNos, String superSweepNumber, int cascadeNumber,
                                  List<BigSweepLottery7DNumber> jackpotNumbers, List<BigSweepLottery7DNumber> luckyNumbers, List<BigSweepLottery7DNumber> giftNumbers,
                                  List<BigSweepLottery7DNumber> consolationNumbers, List<BigSweepLottery7DNumber> participationNumbers, List<BigSweepLottery2DNumber> delight2DNumbers,
                                  List<BigSweepLottery3DNumber> delight3DNumbers) {

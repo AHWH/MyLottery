@@ -16,8 +16,8 @@ public class BigSweepRetrievalManager extends ResultRetrievalManagerBase {
         super();
     }
 
-    public void createRequest() {
-        setRequest(new BigSweepRequestBuilder().createRequest());
+    public void createRequest(int drawNo) {
+        setRequest(new BigSweepRequestBuilder().createRequest(drawNo));
     }
 }
 

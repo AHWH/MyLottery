@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) RedDotDev 2017.
+  ~
+  ~ The following codes are property of the RedDotDev.
+  ~ Unless subject to explicit written approval, there should be no reproduction of the codes in any means.
+  -->
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/multipleNos_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Title"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#999"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/multipleNos_numberList"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/multipleNos_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

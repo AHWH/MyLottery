@@ -18,7 +18,7 @@ public abstract class ResultDatabaseManagerBase implements ResultDatabaseManager
 
     public abstract void save(final LotteryResult lotteryResult);
 
-    public abstract LotteryResult retrieve();
+    public abstract void retrieve();
 
     @Override
     public void registerListener(ResultDataManagerListener listener) {

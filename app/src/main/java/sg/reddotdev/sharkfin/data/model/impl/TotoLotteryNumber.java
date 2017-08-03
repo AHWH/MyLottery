@@ -9,6 +9,8 @@ package sg.reddotdev.sharkfin.data.model.impl;
 
 import com.raizlabs.android.dbflow.annotation.Table;
 
+import org.threeten.bp.ZonedDateTime;
+
 import java.util.Calendar;
 
 import sg.reddotdev.sharkfin.data.database.LotteryDatabase;
@@ -19,7 +21,7 @@ public class TotoLotteryNumber extends LotteryNumber {
     public TotoLotteryNumber() {
     }
 
-    public TotoLotteryNumber(int num, int lotteryID, Calendar date, int type) {
+    public TotoLotteryNumber(int num, int lotteryID, ZonedDateTime date, int type) {
         super(num, lotteryID, date, type);
     }
 }

@@ -12,8 +12,10 @@ import android.util.Log;
 
 import com.raizlabs.android.dbflow.config.DatabaseDefinition;
 import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
 import com.raizlabs.android.dbflow.structure.database.transaction.ITransaction;
+import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransaction;
 import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
 
 import java.util.List;
@@ -28,7 +30,9 @@ import sg.reddotdev.sharkfin.data.transaction.ResultDatabaseManagerBase;
 import sg.reddotdev.sharkfin.util.constants.LottoConst;
 
 
-public class TotoDatabaseManager extends ResultDatabaseManagerBase {
+public class TotoResultDatabaseManager extends ResultDatabaseManagerBase {
+    private String LOGTAG = getClass().getSimpleName();
+
     @Override
     public void save(final LotteryResult lotteryResult) {
         DatabaseDefinition db = FlowManager.getDatabase(LotteryDatabase.class);
@@ -73,7 +77,19 @@ public class TotoDatabaseManager extends ResultDatabaseManagerBase {
     }
 
     @Override
-    public LotteryResult retrieve() {
-        return null;
+    public void retrieve() {
+        SQLite.select().from(TotoLotteryResult.class).async().queryListResultCallback(new QueryTransaction.QueryResultListCallback<TotoLotteryResult>() {
+            @Override
+            public void onListQueryResult(QueryTransaction transaction, @NonNull List<TotoLotteryResult> tResult) {
+                Log.d(LOGTAG, "Retrieved, sending over to listener");
+                listener.onSuccessRetrieve(tResult);
+            }
+        }).error(new Transaction.Error() {
+            @Override
+            public void onError(@NonNull Transaction transaction, @NonNull Throwable error) {
+                Log.d(LOGTAG, "Failed to retrieved");
+                listener.onFailureRetrieve();
+            }
+        }).execute();
     }
 }

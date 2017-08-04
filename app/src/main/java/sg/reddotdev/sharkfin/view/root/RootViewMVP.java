@@ -26,7 +26,6 @@ public interface RootViewMVP extends ViewMVP {
         void onItemClick(LotteryResult lotteryResult);
     }
 
-    View getRootView();
     RecyclerView getResultsRecyclerView();
     Toolbar getToolbar();
     List<Object> getLotteryResults();

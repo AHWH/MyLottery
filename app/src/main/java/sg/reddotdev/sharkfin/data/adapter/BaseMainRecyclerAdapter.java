@@ -18,7 +18,6 @@ import java.util.List;
 
 import sg.reddotdev.sharkfin.R;
 import sg.reddotdev.sharkfin.data.model.LotteryResult;
-import sg.reddotdev.sharkfin.data.model.impl.FourDLotteryResult;
 import sg.reddotdev.sharkfin.util.CalendarConverter;
 import sg.reddotdev.sharkfin.view.viewholder.FourDNewLayoutViewHolder;
 import sg.reddotdev.sharkfin.view.viewholder.FourDNormalLayoutViewHolder;
@@ -70,15 +69,15 @@ public abstract class BaseMainRecyclerAdapter extends RecyclerView.Adapter<Recyc
                 viewHolder = new MonthSectionViewHolder(view);
                 break;
             case FIRSTRESULT:
-                view = inflater.inflate(R.layout.results_layout_new, parent, false);
+                view = inflater.inflate(R.layout.results_recylcer_layout_new, parent, false);
                 viewHolder = new FourDNewLayoutViewHolder(view);
                 break;
             case RESULT:
-                view = inflater.inflate(R.layout.results_layout_normal, parent, false);
+                view = inflater.inflate(R.layout.results_recylcer_layout_normal, parent, false);
                 viewHolder = new FourDNormalLayoutViewHolder(view);
                 break;
             default:
-                view = inflater.inflate(R.layout.results_layout_normal, parent, false);
+                view = inflater.inflate(R.layout.results_recylcer_layout_normal, parent, false);
                 viewHolder = new FourDNormalLayoutViewHolder(view);
         }
         if(viewType != HEADER) {

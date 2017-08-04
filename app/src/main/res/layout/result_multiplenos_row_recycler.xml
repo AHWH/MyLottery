@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) RedDotDev 2017.
+  ~
+  ~ The following codes are property of the RedDotDev.
+  ~ Unless subject to explicit written approval, there should be no reproduction of the codes in any means.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="result_multiplenos_row_individualNo"
+        android:textColor="#333"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+</LinearLayout>

@@ -269,7 +269,7 @@ public class FourDActivity extends AppCompatActivity
         if(fourDLotteryMap.containsKey(key)) {
             list = fourDLotteryMap.get(key);
         } else {
-            list = new ArrayList<>();
+            list = new ArrayList<>()
         }
         list.add(result);
         fourDLotteryMap.put(key, list);
@@ -278,6 +278,7 @@ public class FourDActivity extends AppCompatActivity
     @Override
     public void onItemClick(LotteryResult lotteryResult) {
         /*TODO: Create new Activity here*/
-        Toast.makeText(this, "Hello Hello", Toast.LENGTH_SHORT).show();
+        Intent resultActivityIntent = new Intent(this, FourDResultActivity.class);
+        resultActivityIntent.put
     }
 }

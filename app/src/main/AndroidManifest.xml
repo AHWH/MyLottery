@@ -24,6 +24,9 @@
 
         <activity android:name=".activity.BigSweepActivity">
         </activity>
+
+        <activity android:name=".activity.FourDResultActivity">
+        </activity>
     </application>
 
 </manifest>

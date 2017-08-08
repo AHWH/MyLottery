@@ -9,7 +9,6 @@
 <android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -27,8 +26,7 @@
             android:id="@+id/appbar_layout"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:fitsSystemWindows="true"
-            android:background="@color/fourDTheme_PrimaryDark">
+            android:fitsSystemWindows="true">
 
             <!--Include everything you want inside the toolbar, inside this layout. Including the toolbar itself-->
             <android.support.design.widget.CollapsingToolbarLayout
@@ -36,7 +34,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:minHeight="?attr/actionBarSize"
-                app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
                 app:titleEnabled="false">
 
@@ -44,7 +41,7 @@
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
-                    style="@style/ToolbarStyle.4D"/>
+                    style="@style/ToolbarStyle"/>
 
                 <!--Relativelayout to hold Textviews for next draw details-->
                 <RelativeLayout
@@ -58,11 +55,11 @@
                         android:id="@+id/nextDraw_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="17dp"
                         android:layout_marginBottom="10dp"
                         android:text="@string/toolbarNextDraw"
-                        android:textSize="30sp"
-                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textColor="@color/textPrimaryShade1"
                         android:textStyle="bold"
                         app:layout_scrollFlags="scroll|exitUntilCollapsed"/>
 
@@ -71,9 +68,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/nextDraw_textView"
-                        android:layout_marginBottom="2dp"
                         android:text="@string/toolbarNextDraw_Def"
-                        android:textSize="25sp"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="30sp"
                         android:textStyle="bold"
                         app:layout_scrollFlags="scroll|exitUntilCollapsed"/>
 
@@ -82,8 +79,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/nextDraw_Date_textView"
+                        android:layout_marginTop="-5dp"
                         android:text="@string/toolbarNextDraw_Def"
                         android:textSize="20sp"
+                        android:textColor="@color/textPrimaryShade1"
                         app:layout_scrollFlags="scroll|exitUntilCollapsed"/>
 
                 </RelativeLayout>
@@ -91,20 +90,21 @@
         </android.support.design.widget.AppBarLayout>
 
         <!--Below are for result's RecyclerView-->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/results_list"
+
+        <FrameLayout
+            android:id="@+id/results_list_placeholder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        </android.support.v7.widget.RecyclerView>
+        </FrameLayout>
 
 
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottom_navigation"
             app:menu="@menu/menu_bottom_navigation"
-            style="@style/BottomNavStyle.4D" />
+            style="@style/BottomNavStyle"
+            app:layout_behavior=".util.impl.BottomNavigationBehavior"/>
 
     </android.support.design.widget.CoordinatorLayout>
 

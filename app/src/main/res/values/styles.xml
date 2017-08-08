@@ -4,29 +4,46 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="FourDTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/fourDTheme_Primary</item>
-        <item name="colorPrimaryDark">@color/fourDTheme_SystemDark</item>
+        <item name="colorPrimaryDark">@color/fourDTheme_PrimaryDark</item>
+        <item name="android:statusBarColor">@color/fourDTheme_PrimaryDark</item>
+        <item name="android:navigationBarColor">@color/fourDTheme_PrimaryDark</item>
+    </style>
+
+    <style name="TotoTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/totoTheme_Primary</item>
+        <item name="colorPrimaryDark">@color/totoTheme_PrimaryDark</item>
     </style>
 
 
     <style name="ToolbarStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
-        <item name="android:fitsSystemWindows">true</item>
-        <item name="android:background">@color/colorPrimary</item>
         <item name="titleTextColor">@android:color/white</item>
         <item name="layout_scrollFlags">scroll|exitUntilCollapsed</item>
         <item name="layout_collapseMode">pin</item>
     </style>
 
     <style name="ToolbarStyle.4D">
-        <item name="android:background">@color/fourDTheme_PrimaryDark</item>
-        <item name="popupTheme">@color/fourDTheme_SystemDark</item>
+        <item name="android:background">@color/fourDTheme_Primary</item>
+        <item name="popupTheme">@color/fourDTheme_PrimaryDark</item>
+        <item name="titleTextColor">@android:color/white</item>
+    </style>
+
+    <style name="ToolbarStyle.Toto">
+        <item name="android:background">@color/totoTheme_Primary</item>
+        <item name="popupTheme">@color/totoTheme_PrimaryDark</item>
+        <item name="titleTextColor">@android:color/white</item>
+    </style>
+
+    <style name="ToolbarStyle.BigSweep">
+        <item name="android:background">@color/bigSweepTheme_Primary</item>
+        <item name="popupTheme">@color/bigSweepTheme_PrimaryDark</item>
         <item name="titleTextColor">@android:color/white</item>
     </style>
 
@@ -34,7 +51,6 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">bottom</item>
-        <item name="android:background">@color/colorPrimary</item>
         <item name="itemTextColor">@android:color/white</item>
         <item name="itemIconTint">@android:color/white</item>
         <item name="layout_scrollFlags">scroll|exitUntilCollapsed</item>

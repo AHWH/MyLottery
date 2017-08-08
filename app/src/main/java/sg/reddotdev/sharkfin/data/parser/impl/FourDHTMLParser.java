@@ -16,6 +16,7 @@ import org.threeten.bp.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import sg.reddotdev.sharkfin.data.model.LotteryResult;
 import sg.reddotdev.sharkfin.data.model.impl.FourDLotteryNumber;
 import sg.reddotdev.sharkfin.data.model.impl.FourDLotteryResult;
 import sg.reddotdev.sharkfin.data.parser.ResultParserBase;
@@ -31,7 +32,7 @@ public class FourDHTMLParser extends ResultParserBase {
         super(response);
     }
 
-    public FourDLotteryResult parse() {
+    public LotteryResult parse() {
         trimString();
 
         int lotteryID = parseID();

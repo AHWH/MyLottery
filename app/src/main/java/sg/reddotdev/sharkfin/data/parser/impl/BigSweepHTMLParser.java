@@ -18,6 +18,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import sg.reddotdev.sharkfin.data.model.LotteryResult;
 import sg.reddotdev.sharkfin.data.model.impl.BigSweepLottery2DNumber;
 import sg.reddotdev.sharkfin.data.model.impl.BigSweepLottery3DNumber;
 import sg.reddotdev.sharkfin.data.model.impl.BigSweepLottery7DNumber;
@@ -46,7 +47,7 @@ public class BigSweepHTMLParser extends ResultParserBase {
         super(response);
     }
 
-    public BigSweepLotteryResult parse() {
+    public LotteryResult parse() {
         trimString();
 
         int lotteryID = parseID();

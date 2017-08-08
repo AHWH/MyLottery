@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sg.reddotdev.sharkfin.data.model.Branch;
+import sg.reddotdev.sharkfin.data.model.LotteryResult;
 import sg.reddotdev.sharkfin.data.model.TotoWinner;
 import sg.reddotdev.sharkfin.data.model.impl.TotoLotteryNumber;
 import sg.reddotdev.sharkfin.data.model.impl.TotoLotteryResult;
@@ -43,7 +44,7 @@ public class TotoHTMLParser extends ResultParserBase {
         super(response);
     }
 
-    public TotoLotteryResult parse() {
+    public LotteryResult parse() {
         trimString();
 
         int lotteryID = parseID();

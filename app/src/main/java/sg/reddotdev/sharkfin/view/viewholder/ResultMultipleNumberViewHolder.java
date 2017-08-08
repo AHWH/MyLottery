@@ -13,13 +13,19 @@ import android.widget.TextView;
 
 import sg.reddotdev.sharkfin.R;
 
-/*ViewHolder for 4D new results layout*/
-public class FourDNewLayoutViewHolder extends NewLayoutViewHolder {
+public class ResultMultipleNumberViewHolder extends RecyclerView.ViewHolder {
+    private TextView num;
 
-    public FourDNewLayoutViewHolder(View itemView) {
+    public ResultMultipleNumberViewHolder(View itemView) {
         super(itemView);
+        num = (TextView) itemView.findViewById(R.id.multipleNos_row_no);
     }
 
+    public TextView getNum() {
+        return num;
+    }
 
-    private void setLotteryTheme() {}
+    public void setNum(TextView num) {
+        this.num = num;
+    }
 }

@@ -9,6 +9,7 @@ package sg.reddotdev.sharkfin.data.adapter;
 
 import org.threeten.bp.ZonedDateTime;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import sg.reddotdev.sharkfin.R;
@@ -16,6 +17,7 @@ import sg.reddotdev.sharkfin.data.model.impl.BigSweepLotteryResult;
 import sg.reddotdev.sharkfin.util.CalendarConverter;
 import sg.reddotdev.sharkfin.util.constants.AppLocale;
 import sg.reddotdev.sharkfin.util.constants.BigSweepPrizeAmt;
+import sg.reddotdev.sharkfin.util.constants.LottoConst;
 import sg.reddotdev.sharkfin.view.viewholder.NewLayoutViewHolder;
 import sg.reddotdev.sharkfin.view.viewholder.NormalLayoutViewHolder;
 
@@ -41,6 +43,9 @@ public class BigSweepRecyclerAdapter extends BaseMainRecyclerAdapter {
 
     @Override
     protected void configureNewResultViewHolder(NewLayoutViewHolder holder, int position, List<Object> lotteryResultList) {
+        DecimalFormat df = new DecimalFormat("000000");
+
+        holder.setLotteryTheme(LottoConst.SGPOOLS_SWEEP);
         BigSweepLotteryResult bigSweepLotteryResult = (BigSweepLotteryResult) lotteryResultList.get(position);
         ZonedDateTime lotteryDate = bigSweepLotteryResult.getDate();
         holder.getDate().setText(Integer.toString(lotteryDate.getDayOfMonth()));
@@ -50,9 +55,9 @@ public class BigSweepRecyclerAdapter extends BaseMainRecyclerAdapter {
         holder.getDrawNo().setText(lotteryIDStr);
         String firstPrize = getContext().getText(R.string.bigSweep_main_firstPrizeAmt) + " $" + getFirstPrizeAmt(lotteryDate);
         holder.getFirstTextView().setText(firstPrize);
-        String firstWinningNo = getContext().getText(R.string.bigSweep_main_firstPrize) + " " + Integer.toString(bigSweepLotteryResult.getFirstNumber());
+        String firstWinningNo = getContext().getText(R.string.bigSweep_main_firstPrize) + " " + df.format(bigSweepLotteryResult.getFirstNumber());
         holder.getSecondTextView().setText(firstWinningNo);
-        String secondWinningNo = getContext().getText(R.string.bigSweep_main_secondPrize) + " " + Integer.toString(bigSweepLotteryResult.getSecondNumber());
+        String secondWinningNo = getContext().getText(R.string.bigSweep_main_secondPrize) + " " + df.format(bigSweepLotteryResult.getSecondNumber());
         holder.getThirdTextView().setText(secondWinningNo);
     }
 

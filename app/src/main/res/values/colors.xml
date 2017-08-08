@@ -4,16 +4,24 @@
     <color name="colorPrimaryDark">#3F51B5</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="textPrimary">#f1f1f1</color>
-    <color name="textAlt">#000000</color>
-    <color name="textPrimaryShade1">#838383</color>
+    <color name="textPrimary">#F1F1F1</color>
+    <color name="textAlt">#161616</color>
+    <color name="textPrimaryShade1">#A0A0A0</color>
 
     <color name="bottomNavSelected">#f1f1f1</color>
     <color name="bottomNavNormal">#838383</color>
 
-    <color name="fourDTheme_Primary">#3498db</color>
-    <color name="fourDTheme_PrimaryDark">#2980b9</color>
-    <color name="fourDTheme_SystemDark">#2473a6</color>
+    <color name="fourDTheme_Primary">#4B6EAA</color>
+    <color name="fourDTheme_PrimaryDark">#3E5B8C</color>
+    <color name="fourDTheme_textDarkShade">#8CA2CA</color>
+
+    <color name="totoTheme_Primary">#CC6363</color>
+    <color name="totoTheme_PrimaryDark">#A75252</color>
+    <color name="totoTheme_textDarkShade">#DE9B9B</color>
+
+    <color name="bigSweepTheme_Primary">#439671</color>
+    <color name="bigSweepTheme_PrimaryDark">#377B5D</color>
+    <color name="bigSweepTheme_textDarkShade">#87BCA4</color>
 
 
 </resources>

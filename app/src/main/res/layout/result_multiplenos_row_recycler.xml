@@ -7,15 +7,17 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="6dp">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/multipleNos_row_no"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="result_multiplenos_row_individualNo"
-        android:textColor="#333"
-        android:textSize="20sp"
+        android:gravity="center"
+        android:text="1234"
+        android:textColor="@color/textAlt"
+        android:textSize="26sp"
         android:textStyle="bold"/>
 </LinearLayout>

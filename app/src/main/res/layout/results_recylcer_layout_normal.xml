@@ -27,15 +27,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="30"
-            android:textSize="32sp"
-            android:textColor="#2541B2"/>
+            android:textAlignment="center"
+            android:textColor="@color/textAlt"
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/results_layout_normal_dateday_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="THU"
-            android:textSize="14sp"/>
+            android:textAlignment="center"
+            android:textColor="@color/textPrimaryShade1"
+            android:textSize="15sp" />
     </LinearLayout>
     
     <LinearLayout
@@ -52,17 +55,21 @@
             android:id="@+id/results_layout_normal_results_drawNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:text="Draw No: 8888"
-            android:textSize="17sp"
-            android:textColor="#2541B2"/>
+            android:layout_marginBottom="4dp"
+            android:text="Draw No. 8888"
+            android:textAlignment="viewStart"
+            android:textStyle="bold"
+            android:textColor="@color/textAlt"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/results_layout_normal_results_first"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="First Prize: 8887"
-            android:textSize="15sp"/>
+            android:textAlignment="viewStart"
+            android:textColor="@color/textPrimaryShade1"
+            android:textSize="15sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -79,7 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_results_arrow_right"
-            android:tint="#1768AC"/>
+            android:tint="@color/textPrimaryShade1"/>
     </LinearLayout>
     
 </RelativeLayout>

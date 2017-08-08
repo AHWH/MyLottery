@@ -5,28 +5,33 @@
  * Unless subject to explicit written approval, there should be no reproduction of the codes in any means.
  */
 
-package sg.reddotdev.sharkfin.activity;
+package sg.reddotdev.sharkfin.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.widget.Toast;
+import android.view.View;
+import android.view.ViewGroup;
 
-import org.threeten.bp.ZoneId;
+import org.greenrobot.eventbus.EventBus;
 import org.threeten.bp.ZonedDateTime;
+import org.threeten.bp.format.TextStyle;
 import org.threeten.bp.temporal.ChronoUnit;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
-import sg.reddotdev.sharkfin.R;
+import sg.reddotdev.sharkfin.activity.TotoResultActivity;
 import sg.reddotdev.sharkfin.data.comparator.TreeMapInversedComparator;
 import sg.reddotdev.sharkfin.data.model.LotteryResult;
 import sg.reddotdev.sharkfin.data.model.impl.TotoLotteryResult;
@@ -36,41 +41,39 @@ import sg.reddotdev.sharkfin.data.transaction.ResultDatabaseManager;
 import sg.reddotdev.sharkfin.data.transaction.impl.TotoResultDatabaseManager;
 import sg.reddotdev.sharkfin.manager.base.ResultRetrievalManager;
 import sg.reddotdev.sharkfin.manager.impl.TotoRetrievalManager;
-import sg.reddotdev.sharkfin.util.constants.AppErrorCode;
 import sg.reddotdev.sharkfin.util.constants.AppLocale;
-import sg.reddotdev.sharkfin.view.root.RootViewMVP;
-import sg.reddotdev.sharkfin.view.root.TotoRootView;
+import sg.reddotdev.sharkfin.view.main.fragment.MainFragmentViewMVP;
+import sg.reddotdev.sharkfin.view.main.fragment.TotoFragmentView;
+import sg.reddotdev.sharkfin.view.result.TotoResultView;
 
-public class TotoActivity extends AppCompatActivity
-        implements ResultRetrievalManager.ResultRetrievalManagerListener,
-        ResultDatabaseManager.ResultDataManagerListener, RootViewMVP.RootViewMVPListener {
+import static android.content.Context.MODE_PRIVATE;
+
+
+public class TotoMainFragment extends Fragment
+    implements ResultRetrievalManager.ResultRetrievalManagerListener, ResultDatabaseManager.ResultDataManagerListener, MainFragmentViewMVP.MainFragmentViewMVPListener {
 
     private String LOGTAG = getClass().getSimpleName();
 
-    private boolean firstStart;
+    private AppCompatActivity parentActivity;
+    private SharedPreferences globalSharedPreferences;
+
+    private TotoFragmentView viewController;
 
     private ResultRetrievalManager totoRetrievalManager;
     private ResultDatabaseManager totoDatabaseManager;
-
-    private TotoRootView rootViewMVP;
-
-    private SharedPreferences sharedPreferences;
 
     private TreeMap<String, List<TotoLotteryResult>> totoLotteryMap;
     private int newDrawNo;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        /*TODO: check if its first start*/
-        sharedPreferences = getSharedPreferences("GlobalPrefs", MODE_PRIVATE);
-        firstStart = sharedPreferences.getBoolean("firstStart_Toto", true);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        parentActivity = (AppCompatActivity) getActivity();
+        globalSharedPreferences = parentActivity.getSharedPreferences("GlobalPreferences", MODE_PRIVATE);
 
-        rootViewMVP = new TotoRootView(LayoutInflater.from(this), null, this);
-        rootViewMVP.registerListener(this);
-        setContentView(rootViewMVP.getRootView());
+        viewController = new TotoFragmentView(LayoutInflater.from(context), parentActivity);
+        viewController.registerListener(this);
 
-        /*Through a event listener, it will pass out something regarding its status*/
         totoRetrievalManager = new TotoRetrievalManager();
         totoRetrievalManager.registerListener(this);
 
@@ -81,87 +84,82 @@ public class TotoActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-    }
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(needToRetrieveFromDB()) {
+            totoDatabaseManager.retrieve();
+        }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        totoDatabaseManager.retrieve();
-        if(needToRetrieveNewResult()) {
+        if(needToRetrieveResultOnline()) {
             totoRetrievalManager.createRequest(newDrawNo);
             totoRetrievalManager.retrieve();
         }
     }
 
+    @Nullable
     @Override
-    protected void onPause() {
-        super.onPause();
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return viewController.getRootView();
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(savedInstanceState == null) {
+            viewController.setup();
+        } else {
+            parentActivity = (AppCompatActivity) getActivity();
+            viewController.setActivity(parentActivity);
+            viewController.setup();
+        }
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDetach() {
         totoRetrievalManager.unregisterListener();
         totoDatabaseManager.unregisterListener();
-        rootViewMVP.onDestroyAdapterListener();
-        rootViewMVP.unregisterListener();
-        super.onDestroy();
+        viewController.onDestroyAdapterListener();
+        viewController.unregisterListener();
+        super.onDetach();
     }
 
 
 
-    /*Listeners for ResultRetrieve*/
+    /*Below are listeners*/
+    /*For Result retrieval*/
     @Override
     public void onSuccessfulRetrievedResult(String response) {
-        /*Parse the result into 4D Result Objects*/
-        /*To be saved into DB and view to show*/
-        ResultParser fourDHTMLParcer = new TotoHTMLParser(response);
-        final LotteryResult totoLotteryResult = fourDHTMLParcer.parse();
+        ResultParser totoHTMLParser = new TotoHTMLParser(response);
+        final LotteryResult totoLotteryResult = totoHTMLParser.parse();
         totoDatabaseManager.save(totoLotteryResult);
-
-        /*Once retrieved the first time, first start conditions no longer applies*/
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("firstStart_Toto", false);
-        editor.apply();
 
         addToTotoMap((TotoLotteryResult) totoLotteryResult);
         mergedList(totoLotteryMap);
     }
 
+
     @Override
     public void onFailureRetrievedResult() {
-        rootViewMVP.createSnackBar(AppErrorCode.RESULT_ERROR);
+
     }
 
-    @Override
-    public void onRetryRetrievingResult() {
-        if(totoRetrievalManager != null) {
-            totoRetrievalManager.retrieve();
-        }
-    }
-
-    /*Listeners for ResultDataManager*/
+    /*For Result's database management*/
     @Override
     public void onSuccessSave() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("lastDrawNo_Toto", newDrawNo);
+        SharedPreferences.Editor editor = globalSharedPreferences.edit();
+        editor.putInt("LastDrawNo_Toto", newDrawNo);
+        editor.putBoolean("FirstStart_Toto", false);
         editor.apply();
     }
 
     @Override
     public void onFailureSave() {
-        /*TODO: implement proper error handling mechanism*/
+
     }
 
     @Override
-    public void onSuccessRetrieve(List<? extends LotteryResult> resultList) {
-        for(LotteryResult result: resultList) {
+    public void onSuccessRetrieve(List<? extends LotteryResult> lotteryResultList) {
+        for(LotteryResult result: lotteryResultList) {
             addToTotoMap((TotoLotteryResult) result);
         }
         mergedList(totoLotteryMap);
@@ -169,44 +167,23 @@ public class TotoActivity extends AppCompatActivity
 
     @Override
     public void onFailureRetrieve() {
-        /*TODO: implement proper error handling mechanism*/
+
     }
 
 
-    @Override
-    public void onBottomNavigationSelected(int itemID) {
-        Intent intent = null;
-        switch (itemID) {
-            case R.id.bottomNav_4D:
-                intent = new Intent(this, FourDActivity.class);
-                break;
-            case R.id.bottomNav_Toto:
-                Toast.makeText(this, "You are here!", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-                break;
-            case R.id.bottomNav_BigSweep:
-                intent = new Intent(this, BigSweepActivity.class);
-                startActivity(intent);
+    private boolean needToRetrieveFromDB() {
+        /*If it's first start of app, straight jump to retrieve results online*/
+        if(globalSharedPreferences.getBoolean("FirstStart_Toto", true)) {
+            return false;
         }
-
-        if(intent != null) {
-            startActivity(intent);
+        /*If the existing map is still in memory, do not waste I/O resources to retrieve again*/
+        if(!totoLotteryMap.isEmpty()) {
+            return false;
         }
+        return true;
     }
 
-    @Override
-    public void onNavigationSelected(int itemID) {
-        switch (itemID) {
-            case R.id.drawer_settings:
-                Toast.makeText(this, "Redirects you to SettingsActivity", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-
-    /*Internal Private methods*/
-    /*To check if there is a need to retrieve newest*/
-    private boolean needToRetrieveNewResult() {
+    private boolean needToRetrieveResultOnline() {
         /*First Toto available draw is Draw 1001 on  Sun, 24 Dec 1995*/
         /*Draws happen every Mon and Thurs per week*/
 
@@ -220,11 +197,6 @@ public class TotoActivity extends AppCompatActivity
         long baseWeeksPassed = ChronoUnit.WEEKS.between(baseDate, currentClock);
         newDrawNo = (int) (1282 + baseWeeksPassed * 2);
 
-        /*Immediately retrieve latest result if it's first start*/
-        if(firstStart) {
-            return true;
-        }
-
         /* This ensures that if the week is not fully done yet, there will still be increment on Mon and Thurs*/
         int currentDayOfWeek = currentClock.getDayOfWeek().getValue();
         if(currentDayOfWeek >= 1) {
@@ -234,7 +206,7 @@ public class TotoActivity extends AppCompatActivity
             }
         }
         /* Checking if the new Draw No > old one, if so proceed to retrieve*/
-        int oldDrawNo = sharedPreferences.getInt("lastDrawNo_Toto", 0);
+        int oldDrawNo = globalSharedPreferences.getInt("LastDrawNo_Toto", 0);
         Log.d(LOGTAG, "OldDrawNo: " + oldDrawNo);
         if(newDrawNo > oldDrawNo) {
             /* Final check if its correct time to retrieve */
@@ -251,7 +223,7 @@ public class TotoActivity extends AppCompatActivity
         return false;
     }
 
-    /*Creates a global list to submitted RecyclerView's adapter*/
+    /*Creates a global list to submit to RecyclerView's adapter*/
     private void mergedList(Map<String, List<TotoLotteryResult>> map) {
         List<Object> returnedList = new ArrayList<>();
         for(String key: map.keySet()) {
@@ -260,9 +232,9 @@ public class TotoActivity extends AppCompatActivity
             Collections.reverse(clonedList);
             returnedList.addAll(clonedList);
         }
-        rootViewMVP.getLotteryResults().clear();
-        rootViewMVP.getLotteryResults().addAll(returnedList);
-        rootViewMVP.updateRecyclerViewAdapter();
+        viewController.getLotteryResults().clear();
+        viewController.getLotteryResults().addAll(returnedList);
+        viewController.updateRecyclerViewAdapter();
     }
 
     /*Add to activity's global TreeMap*/
@@ -281,6 +253,14 @@ public class TotoActivity extends AppCompatActivity
 
     @Override
     public void onItemClick(LotteryResult lotteryResult) {
-
+        Intent resultActivityIntent = new Intent(getActivity(), TotoResultActivity.class);
+        ZonedDateTime date = lotteryResult.getDate();
+        String dateStr = date.getDayOfMonth() + " "
+                + date.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault()) + " "
+                + date.getYear() + " ("
+                + date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault()) + ")";
+        resultActivityIntent.putExtra("Date", dateStr);
+        startActivity(resultActivityIntent);
+        EventBus.getDefault().postSticky(lotteryResult);
     }
 }

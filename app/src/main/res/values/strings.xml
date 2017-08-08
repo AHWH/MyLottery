@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">MyLottery</string>
 
-    <string name="fourDActivity">4D Results</string>
-    <string name="totoActivity">Toto Results</string>
-    <string name="bigSweepActivity">Singapore Sweep Results</string>
+    <string name="fourDMain">4D Results</string>
+    <string name="totoMain">Toto Results</string>
+    <string name="bigSweepMain">Singapore Sweep Results</string>
 
-    <string name="toolbarNextDraw">Next Draw</string>
+    <string name="toolbarNextDraw">NEXT DRAW</string>
     <string name="toolbarNextDraw_Def">Unknown</string>
 
 
@@ -22,19 +22,44 @@
     <string name="snackbar_retry">Retry</string>
     <string name="snackbar_network">Change Settings</string>
 
-    <string name="main_nextDraw">Next Draw:</string>
-    <string name="main_drawNo">Draw No:</string>
+    <string name="main_drawNo">Draw No.</string>
+
+    <string name="result_draw">DRAW NO.</string>
 
     <string name="fourd_main_firstPrize">First Prize:</string>
     <string name="fourd_main_secondPrize">Second Prize:</string>
     <string name="fourd_main_thirdPrize">Third Prize:</string>
 
+    <string name="fourd_result_firstPrize">FIRST</string>
+    <string name="fourd_result_secondPrize">SECOND</string>
+    <string name="fourd_result_thirdPrize">THIRD</string>
+    <string name="fourd_result_starter">STARTER</string>
+    <string name="fourd_result_consolation">CONSOLATION</string>
+
     <string name="toto_main_firstPrizeAmt">First Prize Jackpot:</string>
     <string name="toto_main_winningNos">Winning Nos.:</string>
     <string name="toto_main_addWinningNos">Additional Winning No.:</string>
 
+    <string name="toto_result_tab_numbers">Numbers</string>
+    <string name="toto_result_tab_winners">Details</string>
+    <string name="toto_result_winningNos">WINNING NUMBERS</string>
+    <string name="toto_result_addWinningNos">ADDITIONAL NUMBER</string>
+
     <string name="bigSweep_main_firstPrizeAmt">First Prize Amount:</string>
     <string name="bigSweep_main_firstPrize">First Prize:</string>
     <string name="bigSweep_main_secondPrize">Second Prize:</string>
+
+    <string name="bigSweep_result_firstPrize">FIRST</string>
+    <string name="bigSweep_result_secondPrize">SECOND</string>
+    <string name="bigSweep_result_thirdPrize">THIRD</string>
+    <string name="bigSweep_result_superSweepPrize">SUPER SWEEP</string>
+    <string name="bigSweep_result_cascadePrize">CASCADE</string>
+    <string name="bigSweep_result_jackpotPrize">JACKPOT</string>
+    <string name="bigSweep_result_luckyPrize">LUCKY</string>
+    <string name="bigSweep_result_giftPrize">GIFT</string>
+    <string name="bigSweep_result_consolationPrize">CONSOLATION</string>
+    <string name="bigSweep_result_participationPrize">PARTICIPATION</string>
+    <string name="bigSweep_result_delight2DPrize">2D DELIGHT</string>
+    <string name="bigSweep_result_delight3DPrize">3D DELIGHT</string>
 
 </resources>

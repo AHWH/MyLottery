@@ -11,6 +11,7 @@ import android.util.Log;
 
 import org.threeten.bp.ZonedDateTime;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import sg.reddotdev.sharkfin.R;
@@ -18,6 +19,7 @@ import sg.reddotdev.sharkfin.data.model.impl.TotoLotteryNumber;
 import sg.reddotdev.sharkfin.data.model.impl.TotoLotteryResult;
 import sg.reddotdev.sharkfin.util.CalendarConverter;
 import sg.reddotdev.sharkfin.util.constants.AppLocale;
+import sg.reddotdev.sharkfin.util.constants.LottoConst;
 import sg.reddotdev.sharkfin.view.viewholder.NewLayoutViewHolder;
 import sg.reddotdev.sharkfin.view.viewholder.NormalLayoutViewHolder;
 
@@ -30,7 +32,6 @@ public class TotoMainRecyclerAdapter extends BaseMainRecyclerAdapter {
 
     @Override
     protected void configureNormalResultViewHolder(NormalLayoutViewHolder holder, int position, List<Object> totoLotteryResultList) {
-        Log.d(LOGTAG, "Yoohoo!");
         TotoLotteryResult totoLotteryResult = (TotoLotteryResult) totoLotteryResultList.get(position);
         ZonedDateTime lotteryDate = totoLotteryResult.getDate();
         holder.getDate().setText(Integer.toString(lotteryDate.getDayOfMonth()));
@@ -44,6 +45,7 @@ public class TotoMainRecyclerAdapter extends BaseMainRecyclerAdapter {
 
     @Override
     protected void configureNewResultViewHolder(NewLayoutViewHolder holder, int position, List<Object> totoLotteryResultList) {
+        holder.setLotteryTheme(LottoConst.SGPOOLS_TOTO);
         TotoLotteryResult totoLotteryResult = (TotoLotteryResult) totoLotteryResultList.get(position);
         ZonedDateTime lotteryDate = totoLotteryResult.getDate();
         holder.getDate().setText(Integer.toString(lotteryDate.getDayOfMonth()));
@@ -61,8 +63,9 @@ public class TotoMainRecyclerAdapter extends BaseMainRecyclerAdapter {
 
     private String getWinningNos(List<TotoLotteryNumber> winningNos) {
         String returnedList = "";
+        DecimalFormat df = new DecimalFormat("00");
         for (int i = 0; i < 3; i++) {
-            returnedList += winningNos.get(i).getNum();
+            returnedList += df.format(winningNos.get(i).getNum());
             if(i < 2) {
                 returnedList += " | ";
             }

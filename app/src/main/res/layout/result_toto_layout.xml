@@ -6,16 +6,13 @@
   ~ Unless subject to explicit written approval, there should be no reproduction of the codes in any means.
   -->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#d5d5d5">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        style="@style/ToolbarStyle.4D"/>
+        style="@style/ToolbarStyle.Toto"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -44,28 +41,21 @@
             android:textColor="@color/textPrimaryShade1"/>
 
         <include
-            layout="@layout/result_standalonenos_card"
-            android:id="@+id/result_fourd_standaloneNos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/result_layout_draw_no"
-            android:layout_marginBottom="10dp"/>
-        
-        <include
             layout="@layout/result_multiplenos_card"
-            android:id="@+id/result_fourd_starterNos"
+            android:id="@+id/result_toto_winningNos"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_below="@id/result_fourd_standaloneNos"
+            android:layout_below="@id/result_layout_draw_no"
             android:layout_marginBottom="8dp"/>
 
         <include
-            layout="@layout/result_multiplenos_card"
-            android:id="@+id/result_fourd_consolationNos"
-            android:layout_below="@id/result_fourd_starterNos"
+            layout="@layout/result_standaloneno_single_card"
+            android:id="@+id/result_toto_additionalWinningNo"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content" />
-        
+            android:layout_width="wrap_content"
+            android:layout_below="@id/result_toto_winningNos"
+            android:layout_marginBottom="5dp"/>
+
     </RelativeLayout>
 
 </LinearLayout>

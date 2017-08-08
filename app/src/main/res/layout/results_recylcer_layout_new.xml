@@ -26,15 +26,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="30"
-            android:textSize="32sp"
-            android:textColor="#E0614E"/>
+            android:textSize="30sp"
+            android:textColor="@color/textAlt"/>
 
         <TextView
             android:id="@+id/results_layout_new_dateday_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="THU"
-            android:textSize="14sp"/>
+            android:textColor="@color/textPrimaryShade1"
+            android:textSize="15sp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -51,16 +52,18 @@
             android:id="@+id/results_layout_new_results_drawNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:text="Draw No: 8888"
-            android:textSize="17sp"
-            android:textColor="#E0614E"/>
+            android:layout_marginBottom="4dp"
+            android:text="Draw No. 8888"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/textAlt"/>
 
         <TextView
             android:id="@+id/results_layout_new_results_first"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="First Prize: $1,100,888"
+            android:textColor="@color/textPrimaryShade1"
             android:textSize="15sp"/>
 
         <TextView
@@ -68,6 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Winning Numbers: 4 | 8 | 24 ..."
+            android:textColor="@color/textPrimaryShade1"
             android:textSize="15sp"/>
 
         <TextView
@@ -75,6 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Additional Winning Number: 8"
+            android:textColor="@color/textPrimaryShade1"
             android:textSize="15sp"/>
     </LinearLayout>
 
@@ -92,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_results_arrow_right"
-            android:tint="#E26F5E"/>
+            android:tint="@color/textPrimaryShade1"/>
     </LinearLayout>
 
 </RelativeLayout>

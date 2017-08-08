@@ -10,9 +10,7 @@ package sg.reddotdev.sharkfin.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -23,27 +21,21 @@ import java.util.List;
 
 import sg.reddotdev.sharkfin.data.model.LotteryNumber;
 import sg.reddotdev.sharkfin.data.model.LotteryResult;
-import sg.reddotdev.sharkfin.data.model.impl.FourDLotteryResult;
-import sg.reddotdev.sharkfin.view.result.FourDResultView;
-import sg.reddotdev.sharkfin.view.result.ResultViewMVP;
+import sg.reddotdev.sharkfin.data.model.impl.BigSweepLotteryResult;
+import sg.reddotdev.sharkfin.view.result.BigSweepResultView;
 
-/**
- * Created by weihong on 4/8/17.
- */
-
-public class FourDResultActivity extends AppCompatActivity implements ResultViewMVP.ResultViewMVPListener {
+public class BigSweepResultActivity extends AppCompatActivity {
     private String LOGTAG = getClass().getSimpleName();
 
-    private FourDResultView viewMVP;
+    private BigSweepResultView viewMVP;
 
-    private FourDLotteryResult fourDLotteryResult;
+    private BigSweepLotteryResult bigSweepLotteryResult;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        viewMVP = new FourDResultView(LayoutInflater.from(this), null, this);
-        viewMVP.registerListener(this);
+        viewMVP = new BigSweepResultView(LayoutInflater.from(this), null, this);
 
         String dateStr = getIntent().getStringExtra("Date");
         viewMVP.setupToolbar(dateStr);
@@ -69,23 +61,29 @@ public class FourDResultActivity extends AppCompatActivity implements ResultView
 
     @Override
     protected void onDestroy() {
-        viewMVP.unregisterListener();
         super.onDestroy();
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(LotteryResult lotteryResult) {
         if(lotteryResult != null) {
-            fourDLotteryResult = (FourDLotteryResult) lotteryResult;
+            bigSweepLotteryResult = (BigSweepLotteryResult) lotteryResult;
             updateUI();
         }
     }
 
     private void updateUI() {
-        viewMVP.initDrawDetails(fourDLotteryResult.getLotteryID());
-        viewMVP.initStandaloneNumbers(fourDLotteryResult.getFirstPrize(), fourDLotteryResult.getSecondPrize(), fourDLotteryResult.getThirdPrize());
-        viewMVP.initStarterNumbers(collateNumbers(fourDLotteryResult.getStarterNumbers()));
-        viewMVP.initConsolationNumbers(collateNumbers(fourDLotteryResult.getConsolationNumbers()));
+        viewMVP.initDrawDetails(bigSweepLotteryResult.getLotteryID());
+        viewMVP.initStandaloneNumbers(bigSweepLotteryResult.getFirstNumber(), bigSweepLotteryResult.getSecondNumber(), bigSweepLotteryResult.getThirdNumber());
+        viewMVP.initSuperSweep(bigSweepLotteryResult.getSuperSweepNumber());
+        viewMVP.initCascade(bigSweepLotteryResult.getCascadeNumber());
+        viewMVP.initJackpotNumbers(collateNumbers(bigSweepLotteryResult.getJackpotNumbers()));
+        viewMVP.initLuckyNumbers(collateNumbers(bigSweepLotteryResult.getLuckyNumbers()));
+        viewMVP.initGiftNumbers(collateNumbers(bigSweepLotteryResult.getGiftNumbers()));
+        viewMVP.initConsolationNumbers(collateNumbers(bigSweepLotteryResult.getConsolationNumbers()));
+        viewMVP.initParticipationNumbers(collateNumbers(bigSweepLotteryResult.getParticipationNumbers()));
+        viewMVP.initDelight2DNumbers(collateNumbers(bigSweepLotteryResult.getDelight2DNumbers()));
+        viewMVP.initDelight3DNumbers(collateNumbers(bigSweepLotteryResult.getDelight3DNumbers()));
     }
 
     private List<Integer> collateNumbers(List<? extends LotteryNumber> lotteryNumbers) {

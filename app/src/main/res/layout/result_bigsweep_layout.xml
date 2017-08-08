@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) RedDotDev 2017.
+  ~
+  ~ The following codes are property of the RedDotDev.
+  ~ Unless subject to explicit written approval, there should be no reproduction of the codes in any means.
+  -->
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/ToolbarStyle.BigSweep"/>
+
+        <LinearLayout
+            android:id="@+id/result_bigsweep_body_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/result_layout_draw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/result_draw"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/textPrimaryShade1"/>
+
+            <TextView
+                android:id="@+id/result_layout_draw_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="15dp"
+                android:text="Draw"
+                android:textSize="18sp"
+                android:textColor="@color/textPrimaryShade1"/>
+
+            <include
+                layout="@layout/result_standalonenos_card"
+                android:id="@+id/result_bigsweep_standaloneNos"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="10dp" />
+
+            <include
+                layout="@layout/result_standaloneno_single_card"
+                android:id="@+id/result_bigsweep_supersweep"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="8dp"/>
+
+            <include
+                layout="@layout/result_standaloneno_single_card"
+                android:id="@+id/result_bigsweep_cascade"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="8dp"/>
+
+            <include
+                layout="@layout/result_multiplenos_card"
+                android:id="@+id/result_bigsweep_jackpot"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="8dp"/>
+
+            <include
+                layout="@layout/result_multiplenos_card"
+                android:id="@+id/result_bigsweep_lucky"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="8dp"/>
+
+            <include
+                layout="@layout/result_multiplenos_card"
+                android:id="@+id/result_bigsweep_gift"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="8dp"/>
+
+            <include
+                layout="@layout/result_multiplenos_card"
+                android:id="@+id/result_bigsweep_consolation"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="8dp"/>
+
+            <include
+                layout="@layout/result_multiplenos_card"
+                android:id="@+id/result_bigsweep_participation"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="8dp"/>
+
+            <include
+                layout="@layout/result_multiplenos_card"
+                android:id="@+id/result_bigsweep_delight_2d"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="8dp"/>
+
+            <include
+                layout="@layout/result_multiplenos_card"
+                android:id="@+id/result_bigsweep_delight_3d"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="8dp"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

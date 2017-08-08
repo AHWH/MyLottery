@@ -6,22 +6,22 @@
   ~ Unless subject to explicit written approval, there should be no reproduction of the codes in any means.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:divider="@drawable/divider_horizontal"
+    android:layout_margin="10dp"
     android:showDividers="middle">
 
     <TextView
         android:id="@+id/standaloneNo_row_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="Second Prize"
-        android:textSize="20sp"
-        android:textColor="#999"
-        android:textStyle="bold"/>
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        android:text="Second"
+        android:textSize="17sp"
+        android:textColor="@color/textPrimaryShade1" />
 
     <!--<TextView
         android:id="@+id/standaloneNo_row_divider"
@@ -33,11 +33,12 @@
 
     <TextView
         android:id="@+id/standaloneNo_row_no"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_below="@+id/standaloneNo_row_title"
+        android:gravity="center"
         android:text="1234"
-        android:textSize="20sp"
-        android:textColor="#333"
-        android:textStyle="bold"/>
-</LinearLayout>
+        android:textColor="@color/textAlt"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+</RelativeLayout>

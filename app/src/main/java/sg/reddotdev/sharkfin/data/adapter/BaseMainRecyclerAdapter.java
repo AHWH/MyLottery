@@ -19,8 +19,6 @@ import java.util.List;
 import sg.reddotdev.sharkfin.R;
 import sg.reddotdev.sharkfin.data.model.LotteryResult;
 import sg.reddotdev.sharkfin.util.CalendarConverter;
-import sg.reddotdev.sharkfin.view.viewholder.FourDNewLayoutViewHolder;
-import sg.reddotdev.sharkfin.view.viewholder.FourDNormalLayoutViewHolder;
 import sg.reddotdev.sharkfin.view.viewholder.MonthSectionViewHolder;
 import sg.reddotdev.sharkfin.view.viewholder.NewLayoutViewHolder;
 import sg.reddotdev.sharkfin.view.viewholder.NormalLayoutViewHolder;
@@ -39,7 +37,6 @@ public abstract class BaseMainRecyclerAdapter extends RecyclerView.Adapter<Recyc
 
     public BaseMainRecyclerAdapter(List<Object> lotteryResultList) {
         this.lotteryResultList = lotteryResultList;
-        Log.d(LOGTAG, lotteryResultList.size() + "/ " + this.lotteryResultList.size());
     }
 
     /*Assigns the item in the list the respective types*/
@@ -70,15 +67,15 @@ public abstract class BaseMainRecyclerAdapter extends RecyclerView.Adapter<Recyc
                 break;
             case FIRSTRESULT:
                 view = inflater.inflate(R.layout.results_recylcer_layout_new, parent, false);
-                viewHolder = new FourDNewLayoutViewHolder(view);
+                viewHolder = new NewLayoutViewHolder(view);
                 break;
             case RESULT:
                 view = inflater.inflate(R.layout.results_recylcer_layout_normal, parent, false);
-                viewHolder = new FourDNormalLayoutViewHolder(view);
+                viewHolder = new NormalLayoutViewHolder(view);
                 break;
             default:
                 view = inflater.inflate(R.layout.results_recylcer_layout_normal, parent, false);
-                viewHolder = new FourDNormalLayoutViewHolder(view);
+                viewHolder = new NormalLayoutViewHolder(view);
         }
         if(viewType != HEADER) {
             view.setOnClickListener(new View.OnClickListener() {
@@ -99,10 +96,10 @@ public abstract class BaseMainRecyclerAdapter extends RecyclerView.Adapter<Recyc
                 configureHeaderViewHolder((MonthSectionViewHolder) holder, position);
                 break;
             case FIRSTRESULT:
-                configureNewResultViewHolder((FourDNewLayoutViewHolder) holder, position, lotteryResultList);
+                configureNewResultViewHolder((NewLayoutViewHolder) holder, position, lotteryResultList);
                 break;
             case RESULT:
-                configureNormalResultViewHolder((FourDNormalLayoutViewHolder) holder, position, lotteryResultList);
+                configureNormalResultViewHolder((NormalLayoutViewHolder) holder, position, lotteryResultList);
                 break;
         }
     }

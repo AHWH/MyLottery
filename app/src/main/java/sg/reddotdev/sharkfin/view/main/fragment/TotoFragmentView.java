@@ -5,15 +5,14 @@
  * Unless subject to explicit written approval, there should be no reproduction of the codes in any means.
  */
 
-package sg.reddotdev.sharkfin.view.root;
+package sg.reddotdev.sharkfin.view.main.fragment;
 
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.view.Window;
 
-import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
@@ -23,31 +22,55 @@ import sg.reddotdev.sharkfin.data.model.LotteryResult;
 import sg.reddotdev.sharkfin.util.constants.AppLocale;
 import sg.reddotdev.sharkfin.view.viewholder.RecyclerViewHolder;
 
-public class TotoRootView extends RootViewImpl implements RecyclerViewHolder.OnClickListener {
+public class TotoFragmentView extends MainFragmentViewImpl implements RecyclerViewHolder.OnClickListener {
     private TotoMainRecyclerAdapter adapter;
+    private final int totoPriColor;
+    private final int totoDarkColor;
+    private final int totoTextDarkShade;
 
-    public TotoRootView(LayoutInflater inflater, ViewGroup container, AppCompatActivity activity) {
-        super(inflater.inflate(R.layout.toto_activity, container), activity);
+    public TotoFragmentView(LayoutInflater inflater, AppCompatActivity activity) {
+        super(inflater.inflate(R.layout.mainfragment_results_recycler_layout, null), activity);
+        totoPriColor = ContextCompat.getColor(getActivity().getApplicationContext(), R.color.totoTheme_Primary);
+        totoDarkColor = ContextCompat.getColor(getActivity().getApplicationContext(), R.color.totoTheme_PrimaryDark);
+        totoTextDarkShade = ContextCompat.getColor(getActivity().getApplicationContext(), R.color.totoTheme_textDarkShade);
+    }
 
+    public void setup() {
+        init();
+
+        setupTheme();
         setupToolbar();
+        setupBottomBar();
         setupNextDrawDate();
+
         setupRecyclerViewAdapter();
     }
 
     @Override
-    public void updateRecyclerViewAdapter() {
-        adapter.notifyDataSetChanged();
+    protected void setupTheme() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getActivity().getWindow();
+            window.setStatusBarColor(totoDarkColor);
+            window.setNavigationBarColor(totoDarkColor);
+        }
+        getAppBarLayout().setBackgroundColor(totoPriColor);
     }
 
+    @Override
     protected void setupToolbar() {
-        getToolbar().setTitle(R.string.totoActivity);
+        getActivityToolbar().setTitle(R.string.totoMain);
+        getActivityToolbar().setBackgroundColor(totoPriColor);
+        getActivityNextDraw_textView().setTextColor(totoTextDarkShade);
+        getActivityNextDrawDay_textView().setTextColor(totoTextDarkShade);
     }
 
-    protected void setupNextDrawDate() {
-        View rootView = getRootView();
-        TextView nextDrawDateTV = (TextView) rootView.findViewById(R.id.nextDraw_Date_textView);
-        TextView nextDrawDayTimeTV = (TextView) rootView.findViewById(R.id.nextDraw_DayTime_textView);
+    @Override
+    protected void setupBottomBar() {
+        getActivityBottomNavigationView().setBackgroundColor(totoPriColor);
+    }
 
+    @Override
+    protected void setupNextDrawDate() {
         ZonedDateTime currentDateTime = ZonedDateTime.now(AppLocale.gmt8Zone);
         ZonedDateTime newDateTime = currentDateTime.withHour(18).withMinute(30);
         DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("d LLLL yyyy, EEEE, HH:mm");
@@ -75,25 +98,32 @@ public class TotoRootView extends RootViewImpl implements RecyclerViewHolder.OnC
 
         }
         String[] dateTimeArr = newDateTime.format(dateTimeFormat).split(",\\s");
-        nextDrawDateTV.setText(dateTimeArr[0]);
-        nextDrawDayTimeTV.setText(dateTimeArr[1] + ", " + dateTimeArr[2]);
+        getActivityNextDrawDate_textView().setText(dateTimeArr[0]);
+        getActivityNextDrawDay_textView().setText(dateTimeArr[1] + ", " + dateTimeArr[2]);
     }
 
     protected void setupRecyclerViewAdapter() {
         adapter = new TotoMainRecyclerAdapter(getLotteryResults());
         getResultsRecyclerView().setAdapter(adapter);
+        adapter.registerListener(this);
     }
 
+    public void updateRecyclerViewAdapter() {
+        adapter.notifyDataSetChanged();
+    }
+
+    /*From Adapter to View*/
     @Override
     public void onResultClick(LotteryResult lotteryResult) {
         onItemClick(lotteryResult);
     }
 
+    /*From View to Fragment*/
     public void onItemClick(LotteryResult lotteryResult) {
         getListener().onItemClick(lotteryResult);
     }
 
-    @Override
+    /*Destroy adapter to view listener*/
     public void onDestroyAdapterListener() {
         adapter.unregisterListener();
     }

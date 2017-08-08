@@ -30,11 +30,12 @@ public abstract class ResultViewImpl implements ResultViewMVP {
         this.view = view;
         this.appCompatActivity = appCompatActivity;
 
-        initialiseToolbar();
+        setToolbar();
     }
 
+    protected abstract void setupTheme();
+    protected abstract void setupRecyclerViews();
 
-    protected abstract void setupToolbar();
 
     @Override
     public Toolbar getToolbar() {
@@ -62,10 +63,15 @@ public abstract class ResultViewImpl implements ResultViewMVP {
     }
 
 
-    private void initialiseToolbar() {
+    private void setToolbar() {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+    }
+
+    protected void initToolbar() {
         if(toolbar != null) {
             appCompatActivity.setSupportActionBar(toolbar);
+            appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            appCompatActivity.getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
     }
 }

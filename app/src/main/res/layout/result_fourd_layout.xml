@@ -8,10 +8,11 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#d5d5d5">
+    android:layout_height="wrap_content"
+    android:background="@color/textPrimaryShadeZ">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -20,7 +21,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:background="@color/textPrimaryShadeZ">
 
         <TextView
             android:id="@+id/result_layout_draw"
@@ -41,30 +43,42 @@
             android:layout_marginBottom="15dp"
             android:text="Draw"
             android:textSize="18sp"
-            android:textColor="@color/textPrimaryShade1"/>
+            android:textColor="@color/textPrimaryShade1" />
 
         <include
-            layout="@layout/result_standalonenos_card"
             android:id="@+id/result_fourd_standaloneNos"
-            android:layout_width="wrap_content"
+            layout="@layout/result_standalonenos_card"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/result_layout_draw_no"
-            android:layout_marginBottom="10dp"/>
-        
-        <include
-            layout="@layout/result_multiplenos_card"
-            android:id="@+id/result_fourd_starterNos"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_below="@id/result_fourd_standaloneNos"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="10dp" />
 
-        <include
-            layout="@layout/result_multiplenos_card"
-            android:id="@+id/result_fourd_consolationNos"
-            android:layout_below="@id/result_fourd_starterNos"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content" />
+            android:orientation="horizontal"
+            android:layout_below="@+id/result_fourd_standaloneNos">
+
+            <include
+                layout="@layout/result_multiplenos_card"
+                android:id="@+id/result_fourd_starterNos"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"/>
+
+            <include
+                layout="@layout/result_multiplenos_card"
+                android:id="@+id/result_fourd_consolationNos"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
         
     </RelativeLayout>
 

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) RedDotDev 2017.
+  ~
+  ~ The following codes are property of the RedDotDev.
+  ~ Unless subject to explicit written approval, there should be no reproduction of the codes in any means.
+  -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <size android:height="1dp" />
+    <solid android:color="@color/textPrimaryShadeZ" />
+</shape>

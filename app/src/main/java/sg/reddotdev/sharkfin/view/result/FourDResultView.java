@@ -16,20 +16,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.threeten.bp.ZonedDateTime;
-import org.threeten.bp.format.TextStyle;
-import org.w3c.dom.Text;
-
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Locale;
 
 import sg.reddotdev.sharkfin.R;
 import sg.reddotdev.sharkfin.data.adapter.ResultMultipleNumberRecyclerAdapter;
+import sg.reddotdev.sharkfin.view.GridLayoutDividerDecoration;
 
 /**
  * Created by weihong on 4/8/17.
@@ -52,8 +47,8 @@ public class FourDResultView extends ResultViewImpl {
     }
 
     protected void setupTheme() {
+        int fourDDarkColor = ContextCompat.getColor(activity.getApplicationContext(), R.color.fourDTheme_PrimaryDark);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            int fourDDarkColor = ContextCompat.getColor(activity.getApplicationContext(), R.color.fourDTheme_PrimaryDark);
             Window window = activity.getWindow();
             window.setStatusBarColor(fourDDarkColor);
             window.setNavigationBarColor(fourDDarkColor);
@@ -61,17 +56,24 @@ public class FourDResultView extends ResultViewImpl {
     }
 
     protected void setupRecyclerViews() {
+        int fourDPrimaryColor = ContextCompat.getColor(activity.getApplicationContext(), R.color.fourDTheme_Primary);
+
         CardView starterNosCardView = (CardView) getRootView().findViewById(R.id.result_fourd_starterNos);
         TextView starterNosTitle = (TextView) starterNosCardView.findViewById(R.id.multipleNos_title);
+        starterNosTitle.setBackgroundColor(fourDPrimaryColor);
         starterNosTitle.setText(R.string.fourd_result_starter);
         starterNosRecyclerView = (RecyclerView) starterNosCardView.findViewById(R.id.multipleNos_numberList);
-        starterNosRecyclerView.setLayoutManager(new GridLayoutManager(getRootView().getContext(), 4, GridLayoutManager.VERTICAL, false));
+        starterNosRecyclerView.setLayoutManager(new GridLayoutManager(getRootView().getContext(), 2, GridLayoutManager.VERTICAL, false));
+        starterNosRecyclerView.addItemDecoration(new GridLayoutDividerDecoration(activity.getApplicationContext()));
+
 
         CardView consolationNosCardView = (CardView) getRootView().findViewById(R.id.result_fourd_consolationNos);
         TextView consolationNosTitle = (TextView) consolationNosCardView.findViewById(R.id.multipleNos_title);
         consolationNosTitle.setText(R.string.fourd_result_consolation);
+        consolationNosTitle.setBackgroundColor(fourDPrimaryColor);
         consolationNosRecyclerView = (RecyclerView) consolationNosCardView.findViewById(R.id.multipleNos_numberList);
-        consolationNosRecyclerView.setLayoutManager(new GridLayoutManager(getRootView().getContext(), 4, GridLayoutManager.VERTICAL, false));
+        consolationNosRecyclerView.setLayoutManager(new GridLayoutManager(getRootView().getContext(), 2, GridLayoutManager.VERTICAL, false));
+        consolationNosRecyclerView.addItemDecoration(new GridLayoutDividerDecoration(activity.getApplicationContext()));
     }
 
 

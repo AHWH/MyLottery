@@ -8,16 +8,16 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:showDividers="middle">
+    android:layout_gravity="center_horizontal">
 
     <TextView
         android:id="@+id/standaloneNo_row_title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
         android:text="Second"
         android:textSize="17sp"
@@ -33,12 +33,12 @@
 
     <TextView
         android:id="@+id/standaloneNo_row_no"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/standaloneNo_row_title"
-        android:gravity="center"
+        android:layout_centerHorizontal="true"
         android:text="1234"
         android:textColor="@color/textAlt"
-        android:textSize="30sp"
+        android:textSize="28sp"
         android:textStyle="bold" />
 </RelativeLayout>

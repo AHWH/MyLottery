@@ -6,32 +6,36 @@
   ~ Unless subject to explicit written approval, there should be no reproduction of the codes in any means.
   -->
 
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/multipleNos_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/holo_green_dark"
             android:gravity="center_horizontal"
             android:text="Title"
+            android:textColor="@color/textPrimary"
             android:textSize="17sp"
-            android:textColor="@color/textPrimaryShade1"/>
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/multipleNos_numberList"
-            android:layout_marginTop="12dp"
-            android:layout_below="@+id/multipleNos_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/multipleNos_title"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

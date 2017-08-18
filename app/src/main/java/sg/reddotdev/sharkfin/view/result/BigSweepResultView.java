@@ -62,44 +62,53 @@ public class BigSweepResultView extends ResultViewImpl {
     }
 
     protected void setupRecyclerViews() {
+        int bigSweepPrimaryColour = ContextCompat.getColor(activity.getApplicationContext(), R.color.bigSweepTheme_Primary);
+
         CardView jackpotNosCardView = (CardView) getRootView().findViewById(R.id.result_bigsweep_jackpot);
         TextView jackpotNosTitle = (TextView) jackpotNosCardView.findViewById(R.id.multipleNos_title);
         jackpotNosTitle.setText(R.string.bigSweep_result_jackpotPrize);
+        jackpotNosTitle.setBackgroundColor(bigSweepPrimaryColour);
         jackpotNosRecyclerView = (RecyclerView) jackpotNosCardView.findViewById(R.id.multipleNos_numberList);
         jackpotNosRecyclerView.setLayoutManager(new GridLayoutManager(getRootView().getContext(), 3, GridLayoutManager.VERTICAL, false));
 
         CardView luckyNosCardView = (CardView) getRootView().findViewById(R.id.result_bigsweep_lucky);
         TextView luckyNosTitle = (TextView) luckyNosCardView.findViewById(R.id.multipleNos_title);
+        luckyNosTitle.setBackgroundColor(bigSweepPrimaryColour);
         luckyNosTitle.setText(R.string.bigSweep_result_luckyPrize);
         luckyNosRecyclerView = (RecyclerView) luckyNosCardView.findViewById(R.id.multipleNos_numberList);
         luckyNosRecyclerView.setLayoutManager(new GridLayoutManager(getRootView().getContext(), 3, GridLayoutManager.VERTICAL, false));
 
         CardView giftNosCardView = (CardView) getRootView().findViewById(R.id.result_bigsweep_gift);
         TextView giftNosTitle = (TextView) giftNosCardView.findViewById(R.id.multipleNos_title);
+        giftNosTitle.setBackgroundColor(bigSweepPrimaryColour);
         giftNosTitle.setText(R.string.bigSweep_result_giftPrize);
         giftNosRecyclerView = (RecyclerView) giftNosCardView.findViewById(R.id.multipleNos_numberList);
         giftNosRecyclerView.setLayoutManager(new GridLayoutManager(getRootView().getContext(), 3, GridLayoutManager.VERTICAL, false));
 
         CardView consolationNosCardView = (CardView) getRootView().findViewById(R.id.result_bigsweep_consolation);
         TextView consolationNosTitle = (TextView) consolationNosCardView.findViewById(R.id.multipleNos_title);
+        consolationNosTitle.setBackgroundColor(bigSweepPrimaryColour);
         consolationNosTitle.setText(R.string.bigSweep_result_consolationPrize);
         consolationNosRecyclerView = (RecyclerView) consolationNosCardView.findViewById(R.id.multipleNos_numberList);
         consolationNosRecyclerView.setLayoutManager(new GridLayoutManager(getRootView().getContext(), 3, GridLayoutManager.VERTICAL, false));
 
         CardView participationNosCardView = (CardView) getRootView().findViewById(R.id.result_bigsweep_participation);
         TextView participationNosTitle = (TextView) participationNosCardView.findViewById(R.id.multipleNos_title);
+        participationNosTitle.setBackgroundColor(bigSweepPrimaryColour);
         participationNosTitle.setText(R.string.bigSweep_result_participationPrize);
         participationNosRecyclerView = (RecyclerView) participationNosCardView.findViewById(R.id.multipleNos_numberList);
         participationNosRecyclerView.setLayoutManager(new GridLayoutManager(getRootView().getContext(), 3, GridLayoutManager.VERTICAL, false));
 
         CardView delight2DNosCardView = (CardView) getRootView().findViewById(R.id.result_bigsweep_delight_2d);
         TextView delight2DNosTitle = (TextView) delight2DNosCardView.findViewById(R.id.multipleNos_title);
+        delight2DNosTitle.setBackgroundColor(bigSweepPrimaryColour);
         delight2DNosTitle.setText(R.string.bigSweep_result_delight2DPrize);
         delight2DNosRecyclerView = (RecyclerView) delight2DNosCardView.findViewById(R.id.multipleNos_numberList);
         delight2DNosRecyclerView.setLayoutManager(new GridLayoutManager(getRootView().getContext(), 5, GridLayoutManager.VERTICAL, false));
 
         CardView delight3DNosCardView = (CardView) getRootView().findViewById(R.id.result_bigsweep_delight_3d);
         TextView delight3DNosTitle = (TextView) delight3DNosCardView.findViewById(R.id.multipleNos_title);
+        delight3DNosTitle.setBackgroundColor(bigSweepPrimaryColour);
         delight3DNosTitle.setText(R.string.bigSweep_result_delight3DPrize);
         delight3DNosRecyclerView = (RecyclerView) delight3DNosCardView.findViewById(R.id.multipleNos_numberList);
         delight3DNosRecyclerView.setLayoutManager(new GridLayoutManager(getRootView().getContext(), 5, GridLayoutManager.VERTICAL, false));

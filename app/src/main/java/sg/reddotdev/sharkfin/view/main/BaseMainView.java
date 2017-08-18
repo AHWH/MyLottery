@@ -7,6 +7,7 @@
 
 package sg.reddotdev.sharkfin.view.main;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -37,7 +38,6 @@ public class BaseMainView implements BaseMainViewMVP {
     public BaseMainView(LayoutInflater inflater, AppCompatActivity mActivity) {
         rootView = inflater.inflate(R.layout.basemain_activity, null);
         this.mActivity = mActivity;
-
         initToolbar();
         initDrawer();
         initNavigationView();

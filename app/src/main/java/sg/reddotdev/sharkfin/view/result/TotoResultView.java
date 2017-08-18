@@ -48,9 +48,12 @@ public class TotoResultView extends ResultViewImpl {
     }
 
     protected void setupRecyclerViews() {
+        int totoPrimaryColor = ContextCompat.getColor(activity.getApplicationContext(), R.color.totoTheme_Primary);
+
         CardView winningNosCardView = (CardView) getRootView().findViewById(R.id.result_toto_winningNos);
         TextView winningNosTitleTextView = (TextView) winningNosCardView.findViewById(R.id.multipleNos_title);
         winningNosTitleTextView.setText(R.string.toto_result_winningNos);
+        winningNosTitleTextView.setBackgroundColor(totoPrimaryColor);
         winningNosRecyclerView = (RecyclerView) winningNosCardView.findViewById(R.id.multipleNos_numberList);
         winningNosRecyclerView.setLayoutManager(new GridLayoutManager(activity.getApplicationContext(), 6, GridLayoutManager.VERTICAL, false));
     }

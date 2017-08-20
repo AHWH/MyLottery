@@ -13,30 +13,30 @@ import sg.reddotdev.sharkfin.network.impl.BigSweepRequestBuilder;
 import sg.reddotdev.sharkfin.network.impl.FourDRequestBuilder;
 import sg.reddotdev.sharkfin.network.impl.TotoRequestBuilder;
 import sg.reddotdev.sharkfin.network.impl.UnifiedResultRetrievalManager;
-import sg.reddotdev.sharkfin.util.dagger.scope.ActivityScope;
+import sg.reddotdev.sharkfin.util.dagger.scope.PerActivity;
 
 @Module
 public class NetworkModule {
     @Provides
-    @ActivityScope
+    @PerActivity
     public UnifiedResultRetrievalManager providesResultRetrievalManager() {
         return new UnifiedResultRetrievalManager();
     }
 
     @Provides
-    @ActivityScope
+    @PerActivity
     public FourDRequestBuilder providesFourDRequestBuilder() {
         return new FourDRequestBuilder();
     }
 
     @Provides
-    @ActivityScope
+    @PerActivity
     public TotoRequestBuilder providesTotoRequestBuilder() {
         return new TotoRequestBuilder();
     }
 
     @Provides
-    @ActivityScope
+    @PerActivity
     public BigSweepRequestBuilder providesBigSweepRequestBuilder() {
         return new BigSweepRequestBuilder();
     }

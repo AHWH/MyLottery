@@ -10,10 +10,11 @@ package sg.reddotdev.sharkfin.util.dagger;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import sg.reddotdev.sharkfin.MainApplication;
 import sg.reddotdev.sharkfin.util.dagger.module.AppModule;
 
 @Singleton
 @Component(modules = {AppModule.class})
 public interface AppComponent {
-
+    void inject(MainApplication app);
 }

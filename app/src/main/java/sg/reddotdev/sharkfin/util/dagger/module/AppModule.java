@@ -14,8 +14,9 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import dagger.android.AndroidInjection;
 
-@Module
+@Module (includes = AndroidInjection.class)
 public class AppModule {
     private Application application;
 

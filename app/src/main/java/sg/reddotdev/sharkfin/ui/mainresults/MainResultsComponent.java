@@ -8,9 +8,9 @@
 package sg.reddotdev.sharkfin.ui.mainresults;
 
 import dagger.Component;
-import sg.reddotdev.sharkfin.util.dagger.scope.ActivityScope;
+import sg.reddotdev.sharkfin.util.dagger.scope.PerActivity;
 
-@ActivityScope
+@PerActivity
 @Component(modules = {MainPresenterModule.class, NetworkModule.class})
 public interface MainResultsComponent {
     void inject(BaseMainActivity activity);

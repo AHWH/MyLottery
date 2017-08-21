@@ -8,53 +8,43 @@
 package sg.reddotdev.sharkfin.ui.mainresults;
 
 import android.content.Context;
-import android.util.Log;
 
 import dagger.Module;
 import dagger.Provides;
 import sg.reddotdev.sharkfin.ui.mainresults.fragment.MainFragmentContract;
-import sg.reddotdev.sharkfin.ui.mainresults.fragment.bigsweep.BigSweepMainFragmentPresenter;
 import sg.reddotdev.sharkfin.ui.mainresults.fragment.fourd.FourDMainFragmentPresenter;
-import sg.reddotdev.sharkfin.ui.mainresults.fragment.toto.TotoMainFragmentPresenter;
 import sg.reddotdev.sharkfin.util.dagger.scope.PerActivity;
 
 @Module
-public class MainPresenterModule {
-    private Context context;
-
-    public MainPresenterModule(Context context) {
-        this.context = context;
-    }
-
+public abstract class MainPresenterModule {
 
     @Provides
     @PerActivity
-    public Context providesActivityContext() {
+    static Context activityContext(Context context) {
         return context;
     }
 
     @Provides
     @PerActivity
-    public MainResultsContract.Presenter providesMainResultsPresenter() {
+    static MainResultsContract.Presenter mainResultsPresenter() {
         return new MainResultsPresenter();
     }
 
-    @Provides
+    /*@Provides
     @PerActivity
     public MainFragmentContract.Presenter providesBigSweepMainFragmentPresenter() {
         return new BigSweepMainFragmentPresenter(context);
-    }
+    }*/
 
     @Provides
     @PerActivity
-    public MainFragmentContract.Presenter providesFourDMainFragmentPresenter() {
-        Log.d("TEst", "HERE?");
+    static MainFragmentContract.Presenter providesFourDMainFragmentPresenter(Context context) {
         return new FourDMainFragmentPresenter(context);
     }
 
-    @Provides
+    /*@Provides
     @PerActivity
     public MainFragmentContract.Presenter providesTotoMainFragmentPresenter() {
         return new TotoMainFragmentPresenter(context);
-    }
+    }*/
 }

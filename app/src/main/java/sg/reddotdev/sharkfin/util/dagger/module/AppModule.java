@@ -7,26 +7,21 @@
 
 package sg.reddotdev.sharkfin.util.dagger.module;
 
-import android.app.Application;
 import android.content.Context;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjectionModule;
+import sg.reddotdev.sharkfin.MainApplication;
 
-@Module (includes = AndroidInjection.class)
+@Module (includes = AndroidInjectionModule.class)
 public class AppModule {
-    private Application application;
-
-    public AppModule(Application application) {
-        this.application = application;
-    }
 
     @Provides
     @Singleton
-    public Context getContext() {
+    public Context providesContext(MainApplication application) {
         return application;
     }
 }

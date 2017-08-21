@@ -7,14 +7,27 @@
 
 package sg.reddotdev.sharkfin.util.dagger;
 
+import android.app.Application;
+
 import javax.inject.Singleton;
 
+import dagger.BindsInstance;
 import dagger.Component;
+import dagger.android.AndroidInjectionModule;
 import sg.reddotdev.sharkfin.MainApplication;
+import sg.reddotdev.sharkfin.util.dagger.module.ActivityBuilderModule;
 import sg.reddotdev.sharkfin.util.dagger.module.AppModule;
 
 @Singleton
-@Component(modules = {AppModule.class})
+@Component(modules = {AndroidInjectionModule.class, AppModule.class, ActivityBuilderModule.class})
 public interface AppComponent {
+
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        Builder application(Application application);
+        AppComponent build();
+    }
+
     void inject(MainApplication app);
 }

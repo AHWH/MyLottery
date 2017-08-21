@@ -29,6 +29,7 @@ import javax.inject.Inject;
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.AndroidInjection;
 import sg.reddotdev.sharkfin.MainApplication;
 import sg.reddotdev.sharkfin.R;
 import sg.reddotdev.sharkfin.ui.mainresults.fragment.bigsweep.BigSweepMainFragment;
@@ -77,10 +78,7 @@ public class BaseMainActivity extends BaseActivityView
         setContentView(R.layout.basemain_activity);
         ButterKnife.bind(this);
 
-        DaggerMainResultsComponent.builder().networkModule(new NetworkModule())
-                                            .mainPresenterModule(new MainPresenterModule(this))
-                                            .build()
-                                            .inject(this);
+        AndroidInjection.inject(this);
 
         if(toolbar != null) {
             setSupportActionBar(toolbar);

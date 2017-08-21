@@ -19,15 +19,11 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
-import sg.reddotdev.sharkfin.util.dagger.AppComponent;
 import sg.reddotdev.sharkfin.util.dagger.DaggerAppComponent;
-import sg.reddotdev.sharkfin.util.dagger.module.AppModule;
 
 public class MainApplication extends Application implements HasActivityInjector {
     @Inject
     DispatchingAndroidInjector<Activity> activityInjector;
-
-    private AppComponent appComponent;
 
     @Override
     public void onCreate() {
@@ -36,9 +32,7 @@ public class MainApplication extends Application implements HasActivityInjector 
         Stetho.initializeWithDefaults(this);
         FlowManager.init(this);
 
-        DaggerAppComponent.create().inject(this);
-
-        appComponent = initDagger(this);
+        DaggerAppComponent.builder().application(this).build().inject(this);
     }
 
 
@@ -48,14 +42,6 @@ public class MainApplication extends Application implements HasActivityInjector 
         AndroidNetworking.cancelAll();
         AndroidNetworking.shutDown();
         FlowManager.destroy();
-    }
-
-    protected AppComponent initDagger(MainApplication application) {
-        return DaggerAppComponent.builder().appModule(new AppModule(application)).build();
-    }
-
-    public AppComponent getAppComponent() {
-        return appComponent;
     }
 
     public AndroidInjector<Activity> activityInjector() {

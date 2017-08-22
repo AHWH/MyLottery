@@ -18,6 +18,6 @@ import sg.reddotdev.sharkfin.util.dagger.scope.PerActivity;
 public abstract class ActivityBuilderModule {
     @PerActivity
     @ContributesAndroidInjector(modules = {MainPresenterModule.class, NetworkModule.class})
-    abstract BaseMainActivity bindBaseMainActivity();
+    abstract BaseMainActivity bindsBaseMainActivity();
 
 }

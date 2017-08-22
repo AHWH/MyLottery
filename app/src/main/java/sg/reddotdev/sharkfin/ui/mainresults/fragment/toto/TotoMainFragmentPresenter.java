@@ -36,10 +36,11 @@ import sg.reddotdev.sharkfin.ui.mainresults.MainResultsContract;
 import sg.reddotdev.sharkfin.ui.mainresults.fragment.MainFragmentContract;
 import sg.reddotdev.sharkfin.util.constants.AppLocale;
 import sg.reddotdev.sharkfin.util.constants.LottoConst;
+import sg.reddotdev.sharkfin.util.dagger.scope.PerFragment;
 
 import static android.content.Context.MODE_PRIVATE;
 
-
+@PerFragment
 public class TotoMainFragmentPresenter
         implements MainFragmentContract.Presenter, UnifiedResultRetrievalManager.ResultRetrievalManagerListener, ResultDatabaseManager.ResultDataManagerListener {
     private String LOGTAG = getClass().getSimpleName();
@@ -58,6 +59,7 @@ public class TotoMainFragmentPresenter
 
     private int newDrawNo;
 
+    @Inject
     public TotoMainFragmentPresenter(Context context) {
         /*TODO: inject global shared preferences*/
         globalSharedPreferences = context.getSharedPreferences("GlobalPreferences", MODE_PRIVATE);

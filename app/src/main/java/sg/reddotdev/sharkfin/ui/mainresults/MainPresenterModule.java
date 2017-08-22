@@ -7,44 +7,34 @@
 
 package sg.reddotdev.sharkfin.ui.mainresults;
 
-import android.content.Context;
-
+import dagger.Binds;
 import dagger.Module;
-import dagger.Provides;
-import sg.reddotdev.sharkfin.ui.mainresults.fragment.MainFragmentContract;
-import sg.reddotdev.sharkfin.ui.mainresults.fragment.fourd.FourDMainFragmentPresenter;
+import dagger.android.ContributesAndroidInjector;
+import sg.reddotdev.sharkfin.ui.mainresults.fragment.bigsweep.BigSweepMainFragment;
+import sg.reddotdev.sharkfin.ui.mainresults.fragment.bigsweep.BigSweepMainFragmentModule;
+import sg.reddotdev.sharkfin.ui.mainresults.fragment.fourd.FourDMainFragment;
+import sg.reddotdev.sharkfin.ui.mainresults.fragment.fourd.FourDMainFragmentModule;
+import sg.reddotdev.sharkfin.ui.mainresults.fragment.toto.TotoMainFragment;
+import sg.reddotdev.sharkfin.ui.mainresults.fragment.toto.TotoMainFragmentModule;
 import sg.reddotdev.sharkfin.util.dagger.scope.PerActivity;
+import sg.reddotdev.sharkfin.util.dagger.scope.PerFragment;
 
 @Module
 public abstract class MainPresenterModule {
 
-    @Provides
+    @Binds
     @PerActivity
-    static Context activityContext(Context context) {
-        return context;
-    }
+    abstract MainResultsContract.Presenter mainResultsPresenter(MainResultsPresenter presenter);
 
-    @Provides
-    @PerActivity
-    static MainResultsContract.Presenter mainResultsPresenter() {
-        return new MainResultsPresenter();
-    }
+    @PerFragment
+    @ContributesAndroidInjector(modules = BigSweepMainFragmentModule.class)
+    abstract BigSweepMainFragment providesBigSweepMainFragment();
 
-    /*@Provides
-    @PerActivity
-    public MainFragmentContract.Presenter providesBigSweepMainFragmentPresenter() {
-        return new BigSweepMainFragmentPresenter(context);
-    }*/
+    @PerFragment
+    @ContributesAndroidInjector(modules = FourDMainFragmentModule.class)
+    abstract FourDMainFragment providesFourDMainFragment();
 
-    @Provides
-    @PerActivity
-    static MainFragmentContract.Presenter providesFourDMainFragmentPresenter(Context context) {
-        return new FourDMainFragmentPresenter(context);
-    }
-
-    /*@Provides
-    @PerActivity
-    public MainFragmentContract.Presenter providesTotoMainFragmentPresenter() {
-        return new TotoMainFragmentPresenter(context);
-    }*/
+    @PerFragment
+    @ContributesAndroidInjector(modules = TotoMainFragmentModule.class)
+    abstract TotoMainFragment providesTotoMainFragment();
 }

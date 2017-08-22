@@ -30,6 +30,10 @@ import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasFragmentInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 import sg.reddotdev.sharkfin.MainApplication;
 import sg.reddotdev.sharkfin.R;
 import sg.reddotdev.sharkfin.ui.mainresults.fragment.bigsweep.BigSweepMainFragment;
@@ -40,10 +44,13 @@ import sg.reddotdev.sharkfin.util.ui.BaseActivityView;
 
 
 public class BaseMainActivity extends BaseActivityView
-        implements MainResultsContract.View {
+        implements MainResultsContract.View, HasSupportFragmentInjector {
 
     private String LOGTAG = getClass().getSimpleName();
     private String fragmentInViewTag;
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentInjector;
 
 
     @BindView(R.id.toolbar)
@@ -237,6 +244,10 @@ public class BaseMainActivity extends BaseActivityView
                 return false;
             }
         });
+    }
+
+    public final AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentInjector;
     }
 
 

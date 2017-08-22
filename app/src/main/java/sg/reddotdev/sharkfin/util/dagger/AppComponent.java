@@ -13,14 +13,15 @@ import javax.inject.Singleton;
 
 import dagger.BindsInstance;
 import dagger.Component;
-import dagger.android.AndroidInjectionModule;
+import dagger.android.AndroidInjector;
+import dagger.android.support.AndroidSupportInjectionModule;
 import sg.reddotdev.sharkfin.MainApplication;
 import sg.reddotdev.sharkfin.util.dagger.module.ActivityBuilderModule;
 import sg.reddotdev.sharkfin.util.dagger.module.AppModule;
 
 @Singleton
-@Component(modules = {AndroidInjectionModule.class, AppModule.class, ActivityBuilderModule.class})
-public interface AppComponent {
+@Component(modules = {AndroidSupportInjectionModule.class, AppModule.class, ActivityBuilderModule.class})
+public interface AppComponent extends AndroidInjector<MainApplication> {
 
     @Component.Builder
     interface Builder {

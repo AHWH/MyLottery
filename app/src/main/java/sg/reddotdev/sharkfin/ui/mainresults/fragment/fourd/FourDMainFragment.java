@@ -33,6 +33,7 @@ import javax.inject.Inject;
 import butterknife.BindColor;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import dagger.android.support.AndroidSupportInjection;
 import sg.reddotdev.sharkfin.R;
 import sg.reddotdev.sharkfin.activity.FourDResultActivity;
 import sg.reddotdev.sharkfin.data.adapter.FourDMainRecyclerAdapter;
@@ -66,6 +67,7 @@ public class FourDMainFragment extends BaseFragmentView
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        AndroidSupportInjection.inject(this);
         lotteryResults = new ArrayList<>();
     }
 

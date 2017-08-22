@@ -7,9 +7,15 @@
 
 package sg.reddotdev.sharkfin.ui.mainresults;
 
+import javax.inject.Inject;
+
+import sg.reddotdev.sharkfin.util.dagger.scope.PerActivity;
+
+@PerActivity
 public class MainResultsPresenter implements MainResultsContract.Presenter {
     private MainResultsContract.View view;
 
+    @Inject
     public MainResultsPresenter() {
     }
 

@@ -7,7 +7,6 @@
 
 package sg.reddotdev.sharkfin.ui.mainresults;
 
-import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 import sg.reddotdev.sharkfin.network.impl.BigSweepRequestBuilder;
@@ -20,25 +19,25 @@ import sg.reddotdev.sharkfin.util.dagger.scope.PerActivity;
 public abstract class NetworkModule {
     @Provides
     @PerActivity
-    static UnifiedResultRetrievalManager unifiedResultRetrievalManager() {
+    public UnifiedResultRetrievalManager unifiedResultRetrievalManager() {
         return new UnifiedResultRetrievalManager();
-    };
+    }
 
     @Provides
     @PerActivity
-    static FourDRequestBuilder fourDRequestBuilder() {
+    public FourDRequestBuilder fourDRequestBuilder() {
         return new FourDRequestBuilder();
     }
 
     @Provides
     @PerActivity
-    static TotoRequestBuilder totoRequestBuilder() {
+    public TotoRequestBuilder totoRequestBuilder() {
         return new TotoRequestBuilder();
-    };
+    }
 
     @Provides
     @PerActivity
-    static BigSweepRequestBuilder bigSweepRequestBuilder() {
+    public BigSweepRequestBuilder bigSweepRequestBuilder() {
         return new BigSweepRequestBuilder();
-    };
+    }
 }

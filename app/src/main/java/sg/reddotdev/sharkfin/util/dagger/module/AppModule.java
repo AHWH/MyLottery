@@ -14,18 +14,11 @@ import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
-import dagger.Provides;
-import sg.reddotdev.sharkfin.MainApplication;
 
 @Module
 public abstract class AppModule {
     @Binds
     @Singleton
-    abstract Application providesContext(MainApplication application);
-
-    @Provides
-    @Singleton
-    static Context providesApplicationContext(MainApplication application) {
-        return application.getApplicationContext();
-    }
+    /*Context is provided through the application*/
+    abstract Context providesContext(Application application);
 }

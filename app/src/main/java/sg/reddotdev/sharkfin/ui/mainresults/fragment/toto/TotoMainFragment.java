@@ -38,10 +38,7 @@ import sg.reddotdev.sharkfin.R;
 import sg.reddotdev.sharkfin.activity.TotoResultActivity;
 import sg.reddotdev.sharkfin.data.adapter.TotoMainRecyclerAdapter;
 import sg.reddotdev.sharkfin.data.model.LotteryResult;
-import sg.reddotdev.sharkfin.ui.mainresults.MainResultsPresenter;
 import sg.reddotdev.sharkfin.ui.mainresults.fragment.MainFragmentContract;
-import sg.reddotdev.sharkfin.ui.mainresults.fragment.bigsweep.BigSweepMainFragmentPresenter;
-import sg.reddotdev.sharkfin.util.constants.LottoConst;
 import sg.reddotdev.sharkfin.util.ui.BaseFragmentView;
 import sg.reddotdev.sharkfin.view.viewholder.RecyclerViewHolder;
 
@@ -62,7 +59,7 @@ public class TotoMainFragment extends BaseFragmentView
     int totoDarkColour;
 
     @Inject
-    BigSweepMainFragmentPresenter presenter;
+    TotoMainFragmentPresenter presenter;
 
     private List<Object> lotteryResults;
 

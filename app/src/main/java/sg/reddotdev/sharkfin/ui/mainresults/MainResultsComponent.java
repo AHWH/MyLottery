@@ -11,7 +11,7 @@ import dagger.Component;
 import sg.reddotdev.sharkfin.util.dagger.scope.PerActivity;
 
 /*@PerActivity
-@Component(modules = {MainPresenterModule.class, NetworkModule.class})
+@Component(modules = {MainActivityModule.class, NetworkModule.class})
 public interface MainResultsComponent {
     void inject(BaseMainActivity activity);
 }*/

@@ -13,6 +13,7 @@ import android.util.Log;
 import com.raizlabs.android.dbflow.config.DatabaseDefinition;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.sql.queriable.AsyncQuery;
 import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
 import com.raizlabs.android.dbflow.structure.database.transaction.ITransaction;
 import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransaction;
@@ -36,6 +37,9 @@ import sg.reddotdev.sharkfin.util.constants.LottoConst;
 public class BigSweepResultDatabaseManager extends ResultDatabaseManagerBase {
     private String LOGTAG = getClass().getSimpleName();
 
+    private Transaction saveTransaction;
+    private AsyncQuery<BigSweepLotteryResult> retrieveTransaction;
+
     public BigSweepResultDatabaseManager() {
         super();
     }
@@ -43,7 +47,7 @@ public class BigSweepResultDatabaseManager extends ResultDatabaseManagerBase {
     @Override
     public void save(final LotteryResult lotteryResult) {
         DatabaseDefinition db = FlowManager.getDatabase(LotteryDatabase.class);
-        Transaction transaction = db.beginTransactionAsync(new ITransaction() {
+        saveTransaction = db.beginTransactionAsync(new ITransaction() {
             @Override
             public void execute(DatabaseWrapper databaseWrapper) {
                 Log.d("Process", "Saving");
@@ -80,14 +84,13 @@ public class BigSweepResultDatabaseManager extends ResultDatabaseManagerBase {
                 listener.onFailureSave();
             }
         }).build();
-        transaction.execute();
+        saveTransaction.execute();
 
     }
 
     @Override
     public void retrieve() {
-        SQLite.select().from(BigSweepLotteryResult.class).async().queryListResultCallback(new QueryTransaction.QueryResultListCallback<BigSweepLotteryResult>() {
-            @Override
+        retrieveTransaction = SQLite.select().from(BigSweepLotteryResult.class).async().queryListResultCallback(new QueryTransaction.QueryResultListCallback<BigSweepLotteryResult>() {
             public void onListQueryResult(QueryTransaction transaction, @NonNull List<BigSweepLotteryResult> tResult) {
                 Log.d(LOGTAG, "Retrieved, sending over to listener");
                 listener.onSuccessRetrieve(tResult);
@@ -98,6 +101,13 @@ public class BigSweepResultDatabaseManager extends ResultDatabaseManagerBase {
                 Log.d(LOGTAG, "Failed to retrieved");
                 listener.onFailureRetrieve();
             }
-        }).execute();
+        });
+        retrieveTransaction.execute();
+    }
+
+    @Override
+    protected void cancelAllTransaction() {
+        saveTransaction.cancel();
+        retrieveTransaction.cancel();
     }
 }

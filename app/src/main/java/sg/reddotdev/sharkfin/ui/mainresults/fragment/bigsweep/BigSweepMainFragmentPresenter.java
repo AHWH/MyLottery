@@ -95,8 +95,8 @@ public class BigSweepMainFragmentPresenter
     @Override
     public void onSuccessSave() {
         SharedPreferences.Editor editor = globalSharedPreferences.edit();
-        editor.putInt("LastDrawNo_4D", newDrawNo);
-        editor.putBoolean("FirstStart_4D", false);
+        editor.putInt("LastDrawNo_BigSweep", newDrawNo);
+        editor.putBoolean("FirstStart_BigSweep", false);
         editor.apply();
     }
 

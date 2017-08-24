@@ -98,8 +98,8 @@ public class TotoMainFragmentPresenter
     @Override
     public void onSuccessSave() {
         SharedPreferences.Editor editor = globalSharedPreferences.edit();
-        editor.putInt("LastDrawNo_4D", newDrawNo);
-        editor.putBoolean("FirstStart_4D", false);
+        editor.putInt("LastDrawNo_Toto", newDrawNo);
+        editor.putBoolean("FirstStart_Toto", false);
         editor.apply();
     }
 

@@ -10,14 +10,12 @@ package sg.reddotdev.sharkfin.util.dagger.module;
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import sg.reddotdev.sharkfin.ui.mainresults.BaseMainActivity;
-import sg.reddotdev.sharkfin.ui.mainresults.MainPresenterModule;
-import sg.reddotdev.sharkfin.ui.mainresults.NetworkModule;
+import sg.reddotdev.sharkfin.ui.mainresults.MainActivityModule;
 import sg.reddotdev.sharkfin.util.dagger.scope.PerActivity;
 
 @Module
 public abstract class ActivityBuilderModule {
     @PerActivity
-    @ContributesAndroidInjector(modules = {MainPresenterModule.class, NetworkModule.class})
+    @ContributesAndroidInjector(modules = MainActivityModule.class)
     abstract BaseMainActivity bindsBaseMainActivity();
-
 }

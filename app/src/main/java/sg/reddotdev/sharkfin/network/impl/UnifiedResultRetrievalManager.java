@@ -16,8 +16,9 @@ import com.androidnetworking.interfaces.StringRequestListener;
 import javax.inject.Inject;
 
 import sg.reddotdev.sharkfin.network.base.ResultRetrievalManager;
+import sg.reddotdev.sharkfin.util.dagger.scope.PerActivity;
 
-
+@PerActivity
 public class UnifiedResultRetrievalManager implements ResultRetrievalManager {
     private String LOGTAG = getClass().getSimpleName();
     private ResultRetrievalManagerListener listener;
@@ -32,6 +33,7 @@ public class UnifiedResultRetrievalManager implements ResultRetrievalManager {
 
     private int retryCount;
 
+    @Inject
     public UnifiedResultRetrievalManager() {
         retryCount = 0;
     }
@@ -103,6 +105,9 @@ public class UnifiedResultRetrievalManager implements ResultRetrievalManager {
 
     @Override
     public void unregisterListener() {
+        if(request != null && !request.isCanceled()) {
+            request.cancel(true);
+        }
         listener = null;
     }
 

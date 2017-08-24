@@ -76,6 +76,7 @@ public class TotoHTMLParser extends ResultParserBase {
 
 
     protected int parseID() {
+        /*TODO: For some reason, it will be null here*/
         String lotteryIDStr = headerDiv.select("th.drawNumber").first().text();
         return Integer.parseInt(lotteryIDStr.substring(9));
     }

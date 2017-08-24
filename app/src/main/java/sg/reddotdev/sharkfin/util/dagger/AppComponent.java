@@ -22,13 +22,13 @@ import sg.reddotdev.sharkfin.util.dagger.module.AppModule;
 @Singleton
 @Component(modules = {AndroidSupportInjectionModule.class, AppModule.class, ActivityBuilderModule.class})
 public interface AppComponent extends AndroidInjector<MainApplication> {
+    @Override
+    void inject(MainApplication app);
 
     @Component.Builder
     interface Builder {
         @BindsInstance
-        Builder application(Application application);
+        AppComponent.Builder application(Application application);
         AppComponent build();
     }
-
-    void inject(MainApplication app);
 }

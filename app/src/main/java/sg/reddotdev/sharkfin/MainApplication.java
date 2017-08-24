@@ -7,21 +7,32 @@
 
 package sg.reddotdev.sharkfin;
 
+import android.app.Activity;
+import android.app.Application;
+
 import com.androidnetworking.AndroidNetworking;
 import com.facebook.stetho.Stetho;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
-import dagger.android.AndroidInjector;
-import dagger.android.DaggerApplication;
-import sg.reddotdev.sharkfin.util.dagger.AppComponent;
+import javax.inject.Inject;
 
-public class MainApplication extends DaggerApplication {
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
+import sg.reddotdev.sharkfin.util.dagger.DaggerAppComponent;
+
+public class MainApplication extends Application implements HasActivityInjector {
+    @Inject
+    DispatchingAndroidInjector<Activity> dispatchingActivityInjector;
+
     @Override
     public void onCreate() {
         super.onCreate();
         AndroidNetworking.initialize(this);
         Stetho.initializeWithDefaults(this);
         FlowManager.init(this);
+
+        DaggerAppComponent.builder().application(this).build().inject(this);
     }
 
     @Override
@@ -33,9 +44,7 @@ public class MainApplication extends DaggerApplication {
     }
 
     @Override
-    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
-        AppComponent appComponent = DaggerAppComponent.builder().application(this).build();
-        appComponent.inject(this);
-        return appComponent;
+    public AndroidInjector<Activity> activityInjector() {
+        return dispatchingActivityInjector;
     }
 }

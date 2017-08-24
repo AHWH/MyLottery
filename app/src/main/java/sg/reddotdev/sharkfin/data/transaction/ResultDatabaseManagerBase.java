@@ -20,6 +20,8 @@ public abstract class ResultDatabaseManagerBase implements ResultDatabaseManager
 
     public abstract void retrieve();
 
+    protected abstract void cancelAllTransaction();
+
     @Override
     public void registerListener(ResultDataManagerListener listener) {
         this.listener = listener;
@@ -27,6 +29,7 @@ public abstract class ResultDatabaseManagerBase implements ResultDatabaseManager
 
     @Override
     public void unregisterListener() {
+        cancelAllTransaction();
         listener = null;
     }
 }

@@ -20,7 +20,7 @@ import sg.reddotdev.sharkfin.util.dagger.scope.PerActivity;
 import sg.reddotdev.sharkfin.util.dagger.scope.PerFragment;
 
 @Module
-public abstract class MainPresenterModule {
+public abstract class MainActivityModule {
 
     @Binds
     @PerActivity

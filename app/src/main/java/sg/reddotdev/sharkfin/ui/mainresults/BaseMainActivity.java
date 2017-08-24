@@ -258,7 +258,6 @@ public class BaseMainActivity extends BaseActivityView
     private void changeToolbarTheme(int bgColour, int textShade) {
         toolbar.setBackgroundColor(bgColour);
 
-        nextDrawDateTextView.setTextColor(textShade);
         nextDrawDayTextView.setTextColor(textShade);
     }
 

@@ -11,14 +11,22 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.ANRequest;
 import com.androidnetworking.common.Priority;
 
+import javax.inject.Inject;
+
 import sg.reddotdev.sharkfin.network.base.ANRequestInt;
 import sg.reddotdev.sharkfin.util.constants.LottoConst;
 import sg.reddotdev.sharkfin.util.constants.LottoURLEndpoint;
 import sg.reddotdev.sharkfin.network.base.QueryParamBuilder;
+import sg.reddotdev.sharkfin.util.dagger.scope.PerActivity;
+import sg.reddotdev.sharkfin.util.dagger.scope.PerFragment;
 
-
+@PerActivity
 public class TotoRequestBuilder implements ANRequestInt {
     private int drawNo;
+
+    @Inject
+    public TotoRequestBuilder() {
+    }
 
     @Override
     public ANRequest createRequest() {

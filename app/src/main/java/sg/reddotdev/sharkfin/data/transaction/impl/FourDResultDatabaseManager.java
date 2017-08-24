@@ -13,6 +13,7 @@ import android.util.Log;
 import com.raizlabs.android.dbflow.config.DatabaseDefinition;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.sql.queriable.AsyncQuery;
 import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
 import com.raizlabs.android.dbflow.structure.database.transaction.ITransaction;
 import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransaction;
@@ -32,9 +33,12 @@ import sg.reddotdev.sharkfin.util.constants.LottoConst;
 public class FourDResultDatabaseManager extends ResultDatabaseManagerBase {
     private String LOGTAG = getClass().getSimpleName();
 
+    private Transaction saveTransaction;
+    private AsyncQuery<FourDLotteryResult> retrieveTransaction;
+
     public void save(final LotteryResult lotteryResult) {
         DatabaseDefinition db = FlowManager.getDatabase(LotteryDatabase.class);
-        Transaction transaction = db.beginTransactionAsync(new ITransaction() {
+        saveTransaction = db.beginTransactionAsync(new ITransaction() {
             @Override
             public void execute(DatabaseWrapper databaseWrapper) {
                 Log.d(LOGTAG, "Saving");
@@ -57,13 +61,12 @@ public class FourDResultDatabaseManager extends ResultDatabaseManagerBase {
                 listener.onFailureSave();
             }
         }).build();
-        transaction.execute();
+        saveTransaction.execute();
     }
 
     @Override
     public void retrieve() {
-        SQLite.select().from(FourDLotteryResult.class).async().queryListResultCallback(new QueryTransaction.QueryResultListCallback<FourDLotteryResult>() {
-            @Override
+        retrieveTransaction = SQLite.select().from(FourDLotteryResult.class).async().queryListResultCallback(new QueryTransaction.QueryResultListCallback<FourDLotteryResult>() {
             public void onListQueryResult(QueryTransaction transaction, @NonNull List<FourDLotteryResult> tResult) {
                 Log.d(LOGTAG, "Retrieved, sending over to listener");
                 listener.onSuccessRetrieve(tResult);
@@ -74,6 +77,13 @@ public class FourDResultDatabaseManager extends ResultDatabaseManagerBase {
                 Log.d(LOGTAG, "Failed to retrieved");
                 listener.onFailureRetrieve();
             }
-        }).execute();
+        });
+        retrieveTransaction.execute();
+    }
+
+    @Override
+    protected void cancelAllTransaction() {
+        saveTransaction.cancel();
+        retrieveTransaction.cancel();
     }
 }

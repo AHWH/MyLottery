@@ -51,7 +51,8 @@ public class FourDMainFragmentPresenter
 
     private SharedPreferences globalSharedPreferences;
 
-    private ResultDatabaseManager databaseManager;
+    @Inject
+    ResultDatabaseManager databaseManager;
     @Inject
     UnifiedResultRetrievalManager resultRetrievalManager;
 
@@ -63,8 +64,6 @@ public class FourDMainFragmentPresenter
     public FourDMainFragmentPresenter(Context context) {
         /*TODO: inject global shared preferences*/
         globalSharedPreferences = context.getSharedPreferences("GlobalPreferences", MODE_PRIVATE);
-
-        databaseManager = new FourDResultDatabaseManager();
 
         lotteryMap = new TreeMap<>(new TreeMapInversedComparator());
     }

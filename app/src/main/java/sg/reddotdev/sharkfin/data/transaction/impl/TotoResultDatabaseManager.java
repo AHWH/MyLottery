@@ -21,6 +21,8 @@ import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import sg.reddotdev.sharkfin.data.database.LotteryDatabase;
 import sg.reddotdev.sharkfin.data.model.LotteryResult;
 import sg.reddotdev.sharkfin.data.model.TotoWinner;
@@ -29,12 +31,19 @@ import sg.reddotdev.sharkfin.data.model.impl.TotoLotteryResult;
 import sg.reddotdev.sharkfin.data.model.impl.TotoWinningBoard;
 import sg.reddotdev.sharkfin.data.transaction.ResultDatabaseManagerBase;
 import sg.reddotdev.sharkfin.util.constants.LottoConst;
+import sg.reddotdev.sharkfin.util.dagger.scope.PerFragment;
 
-
+@PerFragment
 public class TotoResultDatabaseManager extends ResultDatabaseManagerBase {
     private String LOGTAG = getClass().getSimpleName();
     private Transaction saveTransaction;
     private AsyncQuery<TotoLotteryResult> retrieveTransaction;
+
+    @Inject
+    public TotoResultDatabaseManager() {
+        super();
+    }
+
 
     @Override
     public void save(final LotteryResult lotteryResult) {
@@ -99,7 +108,11 @@ public class TotoResultDatabaseManager extends ResultDatabaseManagerBase {
 
     @Override
     protected void cancelAllTransaction() {
-        saveTransaction.cancel();
-        retrieveTransaction.cancel();
+        if(saveTransaction != null) {
+            saveTransaction.cancel();
+        }
+        if(retrieveTransaction != null) {
+            retrieveTransaction.cancel();
+        }
     }
 }

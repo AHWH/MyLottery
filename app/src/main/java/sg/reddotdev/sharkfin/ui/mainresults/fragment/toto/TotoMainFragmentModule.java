@@ -9,6 +9,8 @@ package sg.reddotdev.sharkfin.ui.mainresults.fragment.toto;
 
 import dagger.Binds;
 import dagger.Module;
+import sg.reddotdev.sharkfin.data.transaction.ResultDatabaseManager;
+import sg.reddotdev.sharkfin.data.transaction.impl.TotoResultDatabaseManager;
 import sg.reddotdev.sharkfin.ui.mainresults.fragment.MainFragmentContract;
 import sg.reddotdev.sharkfin.util.dagger.scope.PerFragment;
 
@@ -17,4 +19,8 @@ public abstract class TotoMainFragmentModule {
     @Binds
     @PerFragment
     abstract MainFragmentContract.Presenter providesTotoMainFragmentPresenter(TotoMainFragmentPresenter presenter);
+
+    @Binds
+    @PerFragment
+    abstract ResultDatabaseManager providesTotoResultsDatabaseManager(TotoResultDatabaseManager databaseManager);
 }

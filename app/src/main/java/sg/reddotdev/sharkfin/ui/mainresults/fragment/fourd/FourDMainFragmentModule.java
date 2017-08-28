@@ -9,6 +9,8 @@ package sg.reddotdev.sharkfin.ui.mainresults.fragment.fourd;
 
 import dagger.Binds;
 import dagger.Module;
+import sg.reddotdev.sharkfin.data.transaction.ResultDatabaseManager;
+import sg.reddotdev.sharkfin.data.transaction.impl.FourDResultDatabaseManager;
 import sg.reddotdev.sharkfin.ui.mainresults.fragment.MainFragmentContract;
 import sg.reddotdev.sharkfin.util.dagger.scope.PerFragment;
 
@@ -17,4 +19,8 @@ public abstract class FourDMainFragmentModule {
     @Binds
     @PerFragment
     abstract MainFragmentContract.Presenter providesFourDMainFragmentPresenter(FourDMainFragmentPresenter presenter);
+
+    @Binds
+    @PerFragment
+    abstract ResultDatabaseManager providesFourDResultsDatabaseManager(FourDResultDatabaseManager databaseManager);
 }

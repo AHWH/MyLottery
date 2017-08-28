@@ -49,7 +49,8 @@ public class BigSweepMainFragmentPresenter
 
     private SharedPreferences globalSharedPreferences;
 
-    private ResultDatabaseManager databaseManager;
+    @Inject
+    ResultDatabaseManager databaseManager;
     @Inject
     UnifiedResultRetrievalManager resultRetrievalManager;
 
@@ -61,8 +62,6 @@ public class BigSweepMainFragmentPresenter
     public BigSweepMainFragmentPresenter(Context context) {
         /*TODO: inject global shared preferences*/
         globalSharedPreferences = context.getSharedPreferences("GlobalPreferences", MODE_PRIVATE);
-
-        databaseManager = new BigSweepResultDatabaseManager();
 
         lotteryMap = new TreeMap<>(new TreeMapInversedComparator());
     }
